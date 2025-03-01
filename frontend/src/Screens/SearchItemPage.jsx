@@ -20,7 +20,7 @@ const SearchItemPage = () => {
 
     return (
         <div className="flex h-[90%] max-sm:m-7 sm:mt-21">
-        <div className="flex flex-col w-full items-center mt-9 p-4">
+        <div className="flex flex-col w-screen items-center mt-9 p-4">
             {/* Filter Buttons */}
             <div className="flex flex-wrap justify-center gap-4 mb-6">
                 <h2 className="text-[2.5vw] font-bold" id="filter">Filters:</h2>

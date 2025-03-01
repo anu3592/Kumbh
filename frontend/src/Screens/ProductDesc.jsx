@@ -8,7 +8,7 @@ const ProductDesc = () => {
     const [imgee, setImgee] = useState(productContent[0].img);
     return (
         <div className="h-[90%] max-sm:m-7 sm:mt-17">
-            <div className="flex flex-row max-sm:flex-col h-full w-full">
+            <div className="flex flex-row max-sm:flex-col h-full w-screen">
                 <div className='w-[40%] m-3 max-sm:w-full'>
                     <img src={imgee} className='w-full lg:h-screen h-full object-cover rounded-xl boxshadow' />
                 </div>
