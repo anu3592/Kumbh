@@ -23,24 +23,29 @@ const Navbar = () => {
     }
 
     const searchItem = (e)=>{
-        e.preventDefault();
-        localStorage.setItem('search',search);
+        //e.preventDefault();
+        console.log("clicked");
 
-        let result = fetch("http://localhost:5000/search",{
-            
-        })
+        if(search.length!=0)
+        {
+            localStorage.setItem('search',search);
+            navigate("/search");
+        }
+
     }
 
     return (
-        <nav className="absolute flex flex-row min-w-full justify-between items-center p-1  bg-[#CD853F] top-0 left-0 lg:h-[12%] md:h-[8%] sm:h-[8%] rounded-lg shadow-lg">
+        <nav className="absolute flex flex-row min-w-full justify-between items-center p-1  bg-[#CD853F] top-0 left-2 lg:h-[12%] md:h-[8%] sm:h-[8%] rounded-lg shadow-lg">
             <div className="flex flex-row w-[30%] m-2 cursor-pointer items-center">
                 <img src={kumbhLogo} className="lg:w-12 lg:h-12 md:w-8 md:h-8 w-5 h-5 rounded-lg m-2 " />
                 <h2 id="siteName" className=" m-2 items-center text-[#FFD700] cursor-pointer" onClick={() => navigate("/")}>Kumbh</h2>
             </div>
 
             <div className="flex flex-row mr-10">
+                <form>
                 <input type="text" className="bg-white mt-2 ml-2 mb-2  p-2 lg:h-[40px] h-[30px] rounded-lg" placeholder="search..." onChange={(e)=>setSearch(e.target.value)}/>
-                <button type="button" id="searchBtn" className="text-white m-1" style={{ backgroundColor: "lightgreen" }} onClick={(e)=>searchItem(e)}>Search</button>
+                <button type="submit" id="searchBtn" className="text-white m-1" style={{ backgroundColor: "lightgreen" }} onClick={(e)=>searchItem(e)}>Search</button>
+                </form>
             </div>
             <div className="flex flex-row">
                 <FaShoppingCart size={25} className="mr-2 cursor-pointer" onClick={() => dispatch(showStatus())} />

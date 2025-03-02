@@ -31,7 +31,7 @@ const AddProduct = () => {
         
     }
     return (
-        <div className="flex flex-col p-2 rounded-lg items-center justify-center mt-10 mb-5 shadow-md productForm">
+        <div className="flex flex-col p-2 rounded-lg items-center justify-center mt-10 mb-5 sm:mt-20 shadow-md productForm">
             <h1 className="text-2xl headStyle text-white">Add your Product</h1>
             <form className="flex flex-col p-2 m-2 ">
                 <input type="text" className="border-2 border-black rounded-lg p-5 m-4 w-[300px] h-5 bg-white" placeholder="Enter the title..." onChange={(e)=>setTitle(e.target.value)}/>

@@ -74,8 +74,28 @@ app.post("/addProduct", upload, async (req,resp)=>{
     resp.send({item});
 })
 
+app.get("/search/:key", verifyToken, async (req, resp)=>{
+    console.log(req.params.key);
+    let result = await Product.find({
+        "$or": [
+            {title: {$regex: req.params.key}},
+            {category: {$regex: req.params.key}}
+        ]
+    })
+    let ans = [];
+    for (let i = 0; i < result.length; i++) {
+        let arr = result[i].img.data;
+        let bufferData = Buffer.from(arr);
+        let base64String = bufferData.toString('base64');
+        ans.push({ title: result[i].title, category: result[i].category, price: result[i].price, desc: result[i].desc, img: base64String });
+    }
+    
+    console.log(ans);
+    resp.send(ans);
+})
 
-const verifyToken = (req, resp, next) => {
+
+function verifyToken(req, resp, next){
     let token = req.headers['authorization'];
     if (token) {
         Jwt.verify(token, jwtKey, (err, valid) => {

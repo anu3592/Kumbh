@@ -7,8 +7,8 @@ const productSchema = mongoose.Schema({
     desc:String,
     img:{
         data:Buffer,
-        contentType:String,
-    },
+        contentType:String
+    }
 });
 
 module.exports = mongoose.model('products', productSchema);
