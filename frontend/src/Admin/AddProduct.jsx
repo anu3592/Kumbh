@@ -19,6 +19,11 @@ const AddProduct = () => {
         formData.append('desc',desc);
         formData.append('img',img);
 
+        formData.forEach((value, key) => {
+            console.log(key, value);
+        });
+        
+
         let result = await fetch("http://localhost:5000/addProduct",{
             method: 'POST',
             body: formData,

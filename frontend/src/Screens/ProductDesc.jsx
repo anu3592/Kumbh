@@ -3,26 +3,25 @@ import { productContent } from "../data/data";
 import { ShoppingCart, ShieldCheck, Truck } from "lucide-react";
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
+import { useSelector } from "react-redux";
 
 const ProductDesc = () => {
-    const [imgee, setImgee] = useState(productContent[0].img);
+    
+    const descState = useSelector((state)=>state.showD);
+    const dataToShow = descState[descState.length-1];
+    const [imgee, setImgee] = useState(dataToShow.img);
+    console.log(dataToShow);
+
     return (
-        <div className="h-[90%] max-sm:m-7 sm:mt-17">
-            <div className="flex flex-row max-sm:flex-col h-full w-[97%]">
-                <div className='w-[40%] m-3 max-sm:w-full'>
-                    <img src={imgee} className='w-full lg:h-screen h-full object-cover rounded-xl boxshadow' />
+        <div className="h-[90%] max-sm:m-7 sm:mt-20">
+            <div className="flex flex-row max-sm:flex-col h-full w-screen justify-center">
+                <div className='w-[40%] m-3 max-sm:w-full h-[50%]'>
+                    <img src={`data:image/jpg;base64,${imgee}`} className='w-full lg:h-screen h-full object-cover rounded-xl boxshadow' />
                 </div>
                 <div className="flex flex-col w-[60%] items-center m-4 p-2 max-sm:w-full">
-                    <h1 className="headStyle">Statue</h1>
-                    <h2 className="text-[3vw] font-bold mt-3 mb-3">Rs 15000</h2>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                        when an unknown printer took a galley of type and scrambled it to make a type
-                        specimen book. It has survived not only five centuries, but also the leap into
-                        electronic typesetting, remaining essentially unchanged. It was popularised
-                        in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                        and more recently with desktop publishing software like Aldus PageMaker including
-                        versions of Lorem Ipsum.</p>
+                    <h1 className="headStyle">{dataToShow.title}</h1>
+                    <h2 className="text-[3vw] font-bold mt-3 mb-3">Rs {dataToShow.price}</h2>
+                    <p>{dataToShow.desc}</p>
 
                     <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                         <div className="p-4 border rounded-lg flex flex-col items-center">

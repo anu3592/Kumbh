@@ -7,11 +7,13 @@ const Jwt = require('jsonwebtoken');
 const fs = require('fs');
 const jwtKey = "kumbh_Pravesh";
 const app = express();
+const Cart = require('./Database/cart');
 const multer = require('multer');
 
 
 app.use(cors());
 app.use(express.json());
+
 
 const upload = multer({
     storage:multer.diskStorage({
@@ -23,6 +25,19 @@ const upload = multer({
         }
     })
 }).single("img");
+
+/*const cartUpload = multer({
+    storage:multer.diskStorage({
+        destination:function(req,resp,cb) {
+            cb(null, "cartImages")
+        },
+        filename:function(req,file, cb){
+            cb(null, file.fieldname+Date.now()+ ".jpg")
+        }
+    })
+}).single("img");*/
+
+const cartUpload = multer();
 
 app.post("/register", async (req, resp) => {
     let user = new User(req.body);
@@ -72,6 +87,7 @@ app.post("/addProduct", upload, async (req,resp)=>{
     });
     let item = await product.save();
     resp.send({item});
+    console.log(item);
 })
 
 app.get("/search/:key", verifyToken, async (req, resp)=>{
@@ -94,6 +110,53 @@ app.get("/search/:key", verifyToken, async (req, resp)=>{
     resp.send(ans);
 })
 
+app.get("/cart/:key",verifyToken, async (req, resp)=>{
+
+    let result = await Cart.find({
+        "$or":[
+            {email: {$regex: req.params.key}}
+        ]
+    });
+
+    /*let ans = [];
+    for(let i=0; i<result.length; i++)
+    {
+        let arr = result[i].img.data;
+        let bufferData = Buffer.from(arr);
+        let base64String = bufferData.toString('base64');
+        ans.push({title: result[i].title, price: result[i].price, email: result[i].email, img: base64String});
+    }*/
+
+    resp.send(result);
+})
+
+
+app.post("/addCart", verifyToken, cartUpload.none(), async (req, resp)=>{
+    const { title, price, email, img } = req.body;
+
+    // Check if the product already exists in the user's cart
+    const existingItem = await Cart.findOne({ title, email });
+
+    if (existingItem) {
+        return resp.status(400).json({ message: "Item already exists in the cart" });
+    }
+
+    let cart = new Cart({
+        title: req.body.title,
+        price: req.body.price,
+        email: req.body.email,
+        img: req.body.img,
+    });
+    let result = await cart.save();
+    //let cart = new Cart(req.body);
+    resp.send(result);
+    console.log(req.body);
+})
+
+app.delete("/deleteCartItem/:key", verifyToken, async (req, resp)=>{
+    let result = await Cart.deleteOne({_id:req.params.key});
+    resp.send(result);
+})
 
 function verifyToken(req, resp, next){
     let token = req.headers['authorization'];

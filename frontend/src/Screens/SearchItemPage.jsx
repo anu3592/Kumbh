@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { productContent } from "../data/data";
+import {Link} from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { showDesc } from "../actions";
 
 const SearchItemPage = () => {
     const [products, setProducts] = useState(null);
+    const dispatch = useDispatch();
 
     const filterByPrice = () => {
         setProducts([...products].sort((a, b) => a.price - b.price));
@@ -40,6 +44,41 @@ const SearchItemPage = () => {
         console.log(searchResult);
     })();
     }, [])
+
+    const sendProdDesc = (item)=>{
+        
+
+        dispatch(showDesc(item));
+        
+    }
+
+    const addInTheCart = async(item)=>{
+        let title = item.title;
+        let price = item.price;
+        
+        let email = JSON.parse(localStorage.getItem('user')).email;
+
+        let img = item.img;
+
+
+        const formData = new FormData();
+        formData.append('title',title);
+        
+        formData.append('price',price);
+        formData.append('email',email);
+        formData.append('img',img);
+
+        let result = await fetch("http://localhost:5000/addCart",{
+            method: "POST",
+            body: formData,
+            headers: {
+                authorization : JSON.parse(localStorage.getItem('token')),
+            }
+        })
+
+        result = await result.json();
+        console.log(result);
+    }
 
     return (
         <div className="flex h-[90%] max-sm:m-7 sm:mt-21 w-[97%]">
@@ -81,10 +120,10 @@ const SearchItemPage = () => {
                                 <div key={item._id} className="border-none hover:scale-105 duration-300 boxshadow rounded-lg overflow-hidden">
                                     <img src={`data:image/jpg;base64,${item.img}`} className="w-full h-[200px] object-cover" alt={item.title} />
                                     <div className="p-4">
-                                        <p className="font-bold font-serif">{item.title}</p>
+                                        <Link to="/desc"><p className="font-bold font-serif text-black cursor-pointer" onClick={()=>sendProdDesc(item)}>{item.title}</p></Link>
                                         <p className="bg-purple-300 text-white px-3 py-1 inline-block rounded-lg mt-2">{item.price}</p>
                                     </div>
-                                    <button className="w-[80%] py-2 bg-orange-500 text-white rounded-b-lg m-2" style={{ backgroundColor: 'rgb(225,69,0)' }}>Add to Cart</button>
+                                    <button className="w-[80%] py-2 bg-orange-500 text-white rounded-b-lg m-2" style={{ backgroundColor: 'rgb(225,69,0)' }} onClick={()=>addInTheCart(item)}>Add to Cart</button>
                                 </div>
                             ))
                         }

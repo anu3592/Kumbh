@@ -4,7 +4,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { FaShoppingCart } from "react-icons/fa";
 import Cart from "./Cart";
 import { useDispatch, useSelector } from "react-redux";
-import { showStatus } from "../actions";
+import { passCart, showStatus } from "../actions";
 import { Link, Navigate, useNavigate } from "react-router";
 
 const Navbar = () => {
@@ -34,6 +34,24 @@ const Navbar = () => {
 
     }
 
+    const cartFunctioning = async ()=>{
+        dispatch(showStatus());
+        
+        isLoggedIn = JSON.parse(isLoggedIn);
+        
+        let loggedInEmail = isLoggedIn.email
+        let result = await fetch(`http://localhost:5000/cart/${isLoggedIn.email}`, {
+            method: 'GET',
+            headers: {
+                authorization: JSON.parse(localStorage.getItem('token')),
+                "Content-Type": "application/json"
+            }
+        });
+
+        result = await result.json();
+        dispatch(passCart(result));
+    }
+
     return (
         <nav className="absolute flex flex-row min-w-full justify-between items-center p-1  bg-[#CD853F] top-0 left-2 lg:h-[12%] md:h-[8%] sm:h-[8%] rounded-lg shadow-lg">
             <div className="flex flex-row w-[30%] m-2 cursor-pointer items-center">
@@ -42,13 +60,13 @@ const Navbar = () => {
             </div>
 
             <div className="flex flex-row mr-10">
-                <form>
+                <form className="flex flex-row items-center">
                 <input type="text" className="bg-white mt-2 ml-2 mb-2  p-2 lg:h-[40px] h-[30px] rounded-lg" placeholder="search..." onChange={(e)=>setSearch(e.target.value)}/>
-                <button type="submit" id="searchBtn" className="text-white m-1" style={{ backgroundColor: "lightgreen" }} onClick={(e)=>searchItem(e)}>Search</button>
+                <button type="submit" id="searchBtn" className="text-white m-1 " style={{ backgroundColor: "lightgreen" }} onClick={(e)=>searchItem(e)}>Search</button>
                 </form>
             </div>
             <div className="flex flex-row">
-                <FaShoppingCart size={25} className="mr-2 cursor-pointer" onClick={() => dispatch(showStatus())} />
+                <FaShoppingCart size={25} className="mr-2 cursor-pointer" onClick={() => cartFunctioning()} />
                 <PiDotsThreeOutlineVerticalFill size={25} className="ml-2 mr-3 cursor-pointer" onClick={() => { setClicked(!clicked) }} />
             </div>
             {
