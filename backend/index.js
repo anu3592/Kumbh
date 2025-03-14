@@ -80,6 +80,7 @@ app.post("/addProduct", upload, async (req,resp)=>{
         category: req.body.category,
         price: req.body.price,
         desc: req.body.desc,
+        size: req.body.size,
         img: {
             data: fs.readFileSync('products/'+req.file.filename),
             contentType: 'image/jpg'
@@ -103,10 +104,10 @@ app.get("/search/:key", verifyToken, async (req, resp)=>{
         let arr = result[i].img.data;
         let bufferData = Buffer.from(arr);
         let base64String = bufferData.toString('base64');
-        ans.push({ title: result[i].title, category: result[i].category, price: result[i].price, desc: result[i].desc, img: base64String });
+        ans.push({ title: result[i].title, category: result[i].category, price: result[i].price, desc: result[i].desc, size: result[i].size, img: base64String });
     }
     
-    console.log(ans);
+    //console.log(ans);
     resp.send(ans);
 })
 
@@ -145,6 +146,7 @@ app.post("/addCart", verifyToken, cartUpload.none(), async (req, resp)=>{
         title: req.body.title,
         price: req.body.price,
         email: req.body.email,
+        quantity: req.body.quantity,
         img: req.body.img,
     });
     let result = await cart.save();
@@ -156,6 +158,24 @@ app.post("/addCart", verifyToken, cartUpload.none(), async (req, resp)=>{
 app.delete("/deleteCartItem/:key", verifyToken, async (req, resp)=>{
     let result = await Cart.deleteOne({_id:req.params.key});
     resp.send(result);
+})
+
+app.get("/allProducts/:key", verifyToken, async (req, resp)=>{
+    let result = await Product.find({
+        "$or":[
+            {category: {$regex: req.params.key}}
+        ]
+    });
+    let ans = [];
+    for(let i=0; i<result.length; i++)
+    {
+        let arr = result[i].img.data;
+        let bufferData = Buffer.from(arr);
+        let base64String = bufferData.toString('base64');
+        ans.push({ title: result[i].title, price: result[i].price, img: base64String });
+    }
+    resp.send(ans);
+    
 })
 
 function verifyToken(req, resp, next){
