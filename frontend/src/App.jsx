@@ -13,6 +13,7 @@ import CheckOut from './Screens/CheckOut';
 import ProductDesc from './Screens/ProductDesc';
 import Cart from './SupportScreens/Cart';
 import AddProduct from './Admin/AddProduct';
+import Dash from './Admin/Dash';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -32,10 +33,10 @@ function App() {
           <Route path='/check' element={<CheckOut />} />
           <Route path='desc' element={<ProductDesc />} />
           <Route path='/add' element={<AddProduct/>}/>
+          <Route path='/dash' element={<Dash/>}/>
         </Routes>
 
       </BrowserRouter>
-
       <Footer />
       
     </div>

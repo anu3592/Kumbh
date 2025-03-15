@@ -9,6 +9,7 @@ const jwtKey = "kumbh_Pravesh";
 const app = express();
 const Cart = require('./Database/cart');
 const multer = require('multer');
+const { verify } = require('crypto');
 
 
 app.use(cors());
@@ -176,6 +177,39 @@ app.get("/allProducts/:key", verifyToken, async (req, resp)=>{
     }
     resp.send(ans);
     
+})
+
+app.get("/getAll", verifyToken, async(req, resp)=>{
+    let result = await Product.find();
+    let ans = [];
+    for(let i=0; i<result.length; i++)
+    {
+        let arr = result[i].img.data;
+        let bufferData = Buffer.from(arr);
+        let base64String = bufferData.toString('base64');
+        ans.push({id: result[i]._id, title: result[i].title, price: result[i].price, img: base64String});
+    }
+    resp.send(ans);
+})
+
+app.delete("/deleteProduct/:key", verifyToken, async(req,resp)=>{
+    let result = await Product.deleteOne({_id:req.params.key});
+    resp.send(result);
+})
+
+app.get("/getAllUsers", verifyToken, async(req,resp)=>{
+    let result = await User.find();
+    let ans = [];
+    for(let i=0; i<result.length; i++)
+    {
+        ans.push({id:result[i]._id, name:result[i].name, email: result[i].email});
+    }
+    resp.send(ans);
+})
+
+app.delete("/deleteUser/:key", verifyToken, async(req, resp)=>{
+    let result = await User.deleteOne({_id: req.params.key});
+    resp.send(result);
 })
 
 function verifyToken(req, resp, next){
