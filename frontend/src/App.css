@@ -5,6 +5,12 @@
   text-align: center;
 }
 
+html, body, #root {
+  height: 100%; /* Ensure full height */
+  margin: 0;
+  
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -93,6 +99,9 @@
 #login{
   font-family: 'cursive';
 }
+#logout{
+  font-family: 'cursive';
+}
 #signup{
   font-family: 'cursive';
 }
@@ -116,3 +125,55 @@
     font-size: 0px;
   }
 }
+
+.itemSelect{
+  border: none;
+}
+
+.itemSelect:hover{
+  background-color: rgb(255,255,224);
+  /*border: none;*/
+}
+
+.itemSelect:active{
+  background-color: rgb(240,230,140);
+  /* border: none; */
+}
+
+.checkOut{
+  background-color: rgb(205, 133,63);
+  
+}
+
+.styleButton{
+  box-shadow: 0 4px 8px 0 rgba(7, 129, 108, 0.2), 0 6px 20px 0 rgba(7, 129, 108, 0.2);
+}
+
+.styleButton:hover{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0, 0.2), 0 6px 20px 0 rgba(0,0,0, 0.2);
+  color: white;
+  background-color: rgba(7, 129, 108, 0.2);
+}
+
+.productForm{
+  background: linear-gradient(90deg, pink, skyblue);
+  box-shadow: 0 4px 8px 0 rgba(0,0,0, 0.2), 0 6px 20px 0 rgba(0,0,0, 0.2);
+}
+
+.dashButtons{
+  padding: 2px;
+}
+
+td {
+  padding: 15px;
+  margin: 20px;
+}
+
+.header{
+  max-width: 1520px;
+}
+
+.footer{
+  max-width: 1520px;
+}
+
