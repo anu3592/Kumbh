@@ -9,6 +9,7 @@ const Login = () => {
         const auth = localStorage.getItem('user');
         if (auth) {
             navigate('/');
+            
         }
     })
 
@@ -27,6 +28,10 @@ const Login = () => {
             console.log(loginResponse);
             localStorage.setItem("user", JSON.stringify(loginResponse.user));
             localStorage.setItem("token", JSON.stringify(loginResponse.auth));
+            if(loginResponse.user.email === "govind@gmail.com")
+            {
+                localStorage.setItem("admin", JSON.stringify(loginResponse.user.name));
+            }
             navigate('/');
         }
     }
