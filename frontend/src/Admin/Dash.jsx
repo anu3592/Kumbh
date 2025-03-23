@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductList from "./ProductList";
 import UserList from "./UserList";
 import { Link, useNavigate } from "react-router";
@@ -8,6 +8,14 @@ import { Link, useNavigate } from "react-router";
 const Dash = () => {
     const navigate = useNavigate();
     const [activeComponent, setActiveComponent] = useState("products");
+
+    useEffect(()=>{
+        const checkForAdmin = localStorage.getItem('admin');
+        if(!checkForAdmin)
+        {
+            navigate('/');
+        }
+    },[])
 
     return (
         

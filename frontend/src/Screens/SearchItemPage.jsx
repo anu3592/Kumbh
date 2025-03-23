@@ -34,6 +34,9 @@ const SearchItemPage = () => {
                 setLoading(false);
                 console.log(searchResult);
             }
+            else{
+                setLoading(false);
+            }
         })();
     }, []);
 

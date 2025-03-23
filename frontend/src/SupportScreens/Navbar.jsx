@@ -19,10 +19,10 @@ const Navbar = () => {
     //const [loading, setLoading] = useState(true);
     let isLoggedIn = localStorage.getItem('user');
 
-    useEffect(() => {
-        checkIsAdmin();
-        //setLoading(false);
-    }, [])
+     useEffect(() => {
+         checkIsAdmin();
+         //setLoading(false);
+     }, [])
 
     const checkIsAdmin = () => {
         if (localStorage.getItem("admin")) {
@@ -34,11 +34,16 @@ const Navbar = () => {
         }
     }
 
-    const logout = () => {
+    const logout = async() => {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
         localStorage.removeItem('admin');
-        navigate('/');
+        localStorage.removeItem('search');
+        //navigate('/');
+        setTimeout(() => {
+            navigate('/');
+            //window.location.reload();
+          }, 150);
     }
 
     const searchItem = (e) => {
@@ -87,7 +92,7 @@ const Navbar = () => {
                 </div>
                 <div className="flex flex-row">
                     <FaShoppingCart size={25} className="mr-2 cursor-pointer" onClick={() => cartFunctioning()} />
-                    <PiDotsThreeOutlineVerticalFill size={25} className="ml-2 mr-3 cursor-pointer" onClick={() => { setClicked(!clicked) }} />
+                    <PiDotsThreeOutlineVerticalFill size={25} className="ml-2 mr-3 cursor-pointer" onClick={() => { setClicked(!clicked)}} />
                 </div>
                 {
                     clicked ? <div className="bg-black/60 fixed w-full h-screen smallSize z-20 top-0 left-0" onClick={() => setClicked(!clicked)}></div> : <></>
