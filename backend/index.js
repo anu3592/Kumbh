@@ -212,6 +212,58 @@ app.delete("/deleteUser/:key", verifyToken, async(req, resp)=>{
     resp.send(result);
 })
 
+app.put("/updateProduct/:key", upload, async(req,resp)=>{
+    
+    try {
+        const updateFields = {
+            title: req.body.title,
+            category: req.body.category,
+            price: req.body.price,
+            desc: req.body.desc,
+            size: req.body.size,
+        };
+
+        if (req.file) {
+            //updateFields.img = `/uploads/${req.file.filename}`;
+            updateFields.img= {
+                data: fs.readFileSync('products/'+req.file.filename),
+                contentType: 'image/jpg'
+            }
+        }
+
+        const updatedProduct = await Product.findByIdAndUpdate(req.params.key, updateFields, { new: true });
+
+        resp.json(updatedProduct);
+    } catch (error) {
+        console.error(error);
+        resp.status(500).json({ error: "Error updating product" });
+    }
+    
+})
+
+app.get("/searchDashProduct/:key", verifyToken, async(req, resp)=>{
+    let result = await Product.findOne({title: req.params.key});
+    let ans = [];
+    if(result)
+    {
+        let arr = result.img.data;
+        let bufferData = Buffer.from(arr);
+        let base64String = bufferData.toString('base64');
+        ans.push({id: result._id, title: result.title, price: result.price, img: base64String});
+    }
+    resp.send(ans);
+})
+
+app.get("/searchDashUser/:key", verifyToken, async(req, resp)=>{
+    let result = await User.findOne({name: req.params.key});
+    let ans = [];
+    if(result)
+    {
+        ans.push({id:result._id, name:result.name, email: result.email});
+    }
+    resp.send(ans);
+})
+
 function verifyToken(req, resp, next){
     let token = req.headers['authorization'];
     if (token) {

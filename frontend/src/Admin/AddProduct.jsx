@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form } from "react-router";
+import { Form, useNavigate } from "react-router";
 
 
 const AddProduct = () => {
@@ -9,6 +9,7 @@ const AddProduct = () => {
     const [desc, setDesc] = useState("");
     const [img, setImg] = useState(null);
     const [size, setSize] = useState(0);
+    const navigate = useNavigate();
 
     const submit = async (e)=>{
         e.preventDefault();
@@ -35,7 +36,11 @@ const AddProduct = () => {
         });
         result = await result.json();
         console.log(result);
-        
+        if(result)
+        {
+            alert("Item added successfully");
+            navigate("/dash");
+        }
     }
     return (
         <div className="flex flex-col p-2 rounded-lg items-center justify-center mt-10 mb-5 sm:mt-20 shadow-md productForm">
