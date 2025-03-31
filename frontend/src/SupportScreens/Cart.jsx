@@ -1,10 +1,14 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import { productContent } from "../data/data";
-import { X } from "lucide-react"; // Ensure you have lucide-react installed, or replace with another icon
+import { Currency, X } from "lucide-react"; // Ensure you have lucide-react installed, or replace with another icon
 import { useDispatch, useSelector } from "react-redux";
 import { showStatus } from "../actions";
 import { Trash2Icon } from "lucide-react";
 import { useNavigate } from "react-router";
+import axios from "axios";
+import kumbhLogo from "../assets/images/kumbh.jpg"
 
 const Cart = () => {
     const dispatch = useDispatch();
@@ -21,17 +25,20 @@ const Cart = () => {
     const [itemQuantity, setItemQuantity] = useState(0);
     //const itemQuantity = new Map();
 
+    
+
+    
+    
 
     useEffect(() => {
-        if(cartPassedItems[0] === undefined)
-        {
+        if (cartPassedItems[0] === undefined) {
             setCartShowItems(null);
-            
+
         }
         else if (cartPassedItems[0].length > 0) {
-            
+
             setCartShowItems(cartPassedItems[0]);
-            
+
         }
 
         // for(let i=0; i<cartPassedItems[0].length; i++)
@@ -77,7 +84,7 @@ const Cart = () => {
         //     quantity = quantity-1;
         // }
         // itemQuantity.set(id, quantity);
-        
+
         // let q = document.getElementById("quantity").innerText;
         // q = Number(q);
         // if(q>1)
@@ -90,7 +97,7 @@ const Cart = () => {
         console.log(value);
     };
 
-    const deleteCartItem = async (item, index)=>{
+    const deleteCartItem = async (item, index) => {
         console.log(item._id);
         let result = await fetch(`http://localhost:5000/deleteCartItem/${item._id}`, {
             method: "DELETE",
@@ -105,6 +112,10 @@ const Cart = () => {
         //setItemQuantity(itemQuantity.splice(index,1));
     }
 
+    const checkout = ()=>{
+        navigate('/check');
+        dispatch(showStatus());
+    }
 
     return (
 
@@ -133,9 +144,9 @@ const Cart = () => {
                                 <div className="flex items-center gap-4 mt-2">
                                     <button onClick={() => handleDecrease(item.quantity)} className="px-2 py-1 bg-gray-300 rounded itemSelect hidden">-</button>
                                     <h2 id="quantity" className="text-lg font-medium hidden">{item.quantity}</h2>
-                                    <input type="number" className="bg-white w-12 h-9 p-2" placeholder="0" min={0} ref={inputRef}/>
+                                    <input type="number" className="bg-white w-12 h-9 p-2" placeholder="0" min={0} ref={inputRef} />
                                     <button onClick={() => handleIncrease(item.quantity)} className="px-2 py-1 bg-gray-300 rounded itemSelect hidden">+</button>
-                                    <Trash2Icon size={25} className="cursor-pointer" onClick={()=>deleteCartItem(item, index)}/>
+                                    <Trash2Icon size={25} className="cursor-pointer" onClick={() => deleteCartItem(item, index)} />
                                 </div>
                             </div>
                         </div>
@@ -144,9 +155,9 @@ const Cart = () => {
                     <h2 className="headStyle text-2xl">No item added to cart</h2>
                 }
             </div>
-            {cartShowItems?
-                <button type="button" className="checkOut m-2 text-white">CheckOut</button>
-                :<></>
+            {cartShowItems ?
+                <button type="button" className="checkOut m-2 text-white" onClick={()=>checkout()}>CheckOut</button>
+                : <></>
             }
         </div>
     );
