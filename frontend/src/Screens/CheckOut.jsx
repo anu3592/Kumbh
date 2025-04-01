@@ -1,139 +1,109 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import kumbhLogo from "../assets/images/kumbh.jpg"
+import React, { useState } from "react";
+import { productContent } from "../data/data";
+import { FaTimes } from "react-icons/fa";
 
-const CheckOut = () => {
+const CheckOut = ({ onClose }) => {
+    const [step, setStep] = useState("contact");
+    const [contact, setContact] = useState({ phone: "", email: "" });
+    const [coupon, setCoupon] = useState("");
 
-    const [name, setName] = useState("");
-    const [contact, setContact] = useState(0);
-    const [zip, setZip] = useState(0);
-    const [address, setAddress] = useState("");
-
-    const loadScript = (src) => {
-        return new Promise((resolve) => {
-            const script = document.createElement('script');
-            script.src = src;
-            script.onload = () => {
-                resolve(true);
-            }
-            script.onerror = () => {
-                resolve(false);
-            }
-            document.body.appendChild(script);
-        })
-    }
-
-    const onPayment = async (price, itemName) => {
-        let user_email = JSON.parse(localStorage.getItem("user")).email;
-        //console.log(user_email);
-        try {
-            const options = {
-                courseId: 1,
-                amount: price,
-                email: user_email,
-            }
-
-            const res = await axios.post('http://localhost:5000/api/createOrder', options);
-            const data = res.data;
-            console.log(data);
-
-            const paymentObject = new (window).Razorpay({
-                key: "rzp_test_Dw38PkQut6jH00",
-                currency: "INR",
-                name: "Kumbh",
-                image: kumbhLogo,
-                order_id: data.id,
-                ...data,
-
-                prefill: {
-                    name: "Anurag Tiwari",
-                    email: "anurag@example.com",
-                    contact: "9999999999", // User's phone
-                },
-
-                notes: {
-                    address: "User address here", // optional custom address
-                },
-
-                handler: function (response) {
-                    console.log(response);
-
-                    const options2 = {
-                        order_id: response.razorpay_order_id,
-                        payment_id: response.razorpay_payment_id,
-                        signature: response.razorpay_signature
-                    }
-
-                    axios.post('http://localhost:5000/api/verifyPayment', options2).then((res) => {
-                        console.log(res.data);
-                        if (res.data.success) {
-                            alert("Payment Successful");
-                        }
-                        else {
-                            alert("Payemnt Failed");
-                        }
-                    }).catch((err) => {
-                        console.log(err);
-                    })
-                },
-
-                theme: {
-                    color: "#CD853F",
-                },
-
-                method: {
-                    netbanking: true,
-                    card: true,
-                    wallet: true,
-                    upi: true,
-                    // disable pay later
-                    paylater: false,
-                }
-
-            })
-            paymentObject.open();
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-
-    const submit = async (e) => {
-        e.preventDefault();
-
-        let result = await fetch("http://localhost:5000/checkout", {
-            method: "POST",
-            body: JSON.stringify({ name, contact, zip, address }),
-            headers: {
-                authorization: JSON.parse(localStorage.getItem("token")),
-                'content-type': 'application/json'
-            }
-        })
-
-        result = await result.json();
-        console.log(result);
-
-        onPayment(100, "dummy");
-
-    }
-
-
-    useEffect(() => {
-        loadScript('http://checkout.razorpay.com/v1/checkout.js')
-    }, [])
+    // Fixed total price calculation
+    const totalPrice = productContent.reduce((acc, item) => acc + item.cost, 0);
+    
 
     return (
-        <div className="flex flex-col h-full w-screen justify-center items-center mt-10 ml-2 mb-2 mr-2 rounded-2xl">
-            <h2 className="headStyle text-3xl font-bold">Enter Your Details</h2>
-            <div className="flex flex-col">
-                <input type="text" className="border-2 border-black rounded-lg p-5 m-4 w-[300px] h-5 bg-white" placeholder="Enter your name..." onChange={(e) => setName(e.target.value)} />
-                <input type="number" className="border-2 border-black rounded-lg p-5 m-4 w-[300px] h-5 bg-white" placeholder="Enter your phone number..." onChange={(e) => setContact(e.target.value)} />
-                <input type="number" className="border-2 border-black rounded-lg p-5 m-4 w-[300px] h-5 bg-white" placeholder="Enter the zip code..." onChange={(e) => setZip(e.target.value)} />
-                <textarea cols="5" rows="3" placeholder="Enter the Address..." className="border-2 border-black rounded-lg p-5 m-4 w-[300px] h-5 bg-white" onChange={(e) => setAddress(e.target.value)}></textarea>
-                <button type="button" className="w-[30%] text-[2vw] m-2 text-white bg-white" style={{ backgroundColor: "blue" }} onClick={(e) => submit(e)}>Submit</button>
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+            <div className="bg-white w-[95%] md:w-[60%] lg:w-[50%] max-h-[90vh] overflow-y-auto p-6 rounded-lg shadow-2xl relative">
+                
+                {/* Close Button */}
+                <button onClick={onClose} className="absolute top-4 right-4 text-gray-600 hover:text-gray-800">
+                    <FaTimes size={24} />
+                </button>
+
+                {/* Steps Navigation */}
+                <div className="flex justify-around border-b pb-3 text-gray-700 text-lg">
+                    <button onClick={() => setStep("contact")} className={`${step === "contact" ? "font-bold text-black" : "text-gray-500"}`}>
+                        Contact
+                    </button>
+                    <button onClick={() => setStep("address")} className={`${step === "address" ? "font-bold text-black" : "text-gray-500"}`}>
+                        Address
+                    </button>
+                    <button onClick={() => setStep("payment")} className={`${step === "payment" ? "font-bold text-black" : "text-gray-500"}`}>
+                        Payment
+                    </button>
+                </div>
+
+                {/* Order Summary */}
+                <div className="bg-gray-100 p-4 rounded-md mt-4 shadow-md">
+                    <h2 className="text-xl font-bold text-gray-700 text-center">Order Summary</h2>
+                    
+                    {/* Products List */}
+                    <div className="flex overflow-x-auto gap-2 py-2">
+                        {productContent.map((item, index) => (
+                            <div key={item.id} className="flex flex-col items-center">
+                                <div className="hidden"></div>
+                                
+                                <img src={item.img} alt={item.title} className="w-16 h-16 rounded border shadow-sm" />
+                                <span className="text-gray-600 text-sm">{item.price} Rs</span>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Corrected Total Price Display */}
+                    <p className="mt-2 text-gray-700 font-semibold text-center">
+                        Total: <span className="text-lg text-black">Rs {totalPrice}</span>
+                    </p>
+                </div>
+
+                {/* Contact Details */}
+                {step === "contact" && (
+                    <div className="mt-4">
+                        <label className="block text-gray-700 text-lg font-semibold">Phone Number</label>
+                        <input
+                            type="text"
+                            value={contact.phone}
+                            onChange={(e) => setContact({ ...contact, phone: e.target.value })}
+                            className="w-full border p-3 rounded mt-1 text-lg"
+                            placeholder="Enter phone number"
+                        />
+                        <label className="block text-gray-700 mt-3 text-lg font-semibold">Email</label>
+                        <input
+                            type="email"
+                            value={contact.email}
+                            onChange={(e) => setContact({ ...contact, email: e.target.value })}
+                            className="w-full border p-3 rounded mt-1 text-lg"
+                            placeholder="Enter email address"
+                        />
+                    </div>
+                )}
+
+                {/* Coupon Code */}
+                <div className="mt-4">
+                    <label className="block text-gray-700 text-lg font-semibold">Apply Coupon (if any)</label>
+                    <div className="flex gap-2">
+                        <input
+                            type="text"
+                            value={coupon}
+                            onChange={(e) => setCoupon(e.target.value)}
+                            className="w-full border p-3 rounded text-lg"
+                            placeholder="Enter coupon code"
+                        />
+                        <button className="bg-gray-700 text-white px-4 py-3 rounded hover:bg-gray-800">
+                            Apply
+                        </button>
+                    </div>
+                </div>
+
+                {/* Continue Button */}
+                <button className="bg-black text-white w-full py-3 mt-5 rounded-lg text-lg hover:bg-gray-800">
+                    Continue to Payment
+                </button>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default CheckOut;
+
+
+

@@ -10,14 +10,10 @@ const app = express();
 const Cart = require('./Database/cart');
 const multer = require('multer');
 const { verify } = require('crypto');
-const router = require('./routes/payment.routes');
-const Order = require('./Database/order');
 
 
 app.use(cors());
 app.use(express.json());
-
-app.use('/api', router);
 
 
 const upload = multer({
@@ -266,18 +262,6 @@ app.get("/searchDashUser/:key", verifyToken, async(req, resp)=>{
         ans.push({id:result._id, name:result.name, email: result.email});
     }
     resp.send(ans);
-})
-
-app.post("/checkout", verifyToken, async (req, resp)=>{
-    let order = new Order({
-        name: req.body.name,
-        contact: req.body.contact,
-        zip: req.body.zip,
-        address: req.body.address,
-        isPaid: "not paid"
-    });
-    let result = await order.save();
-    resp.send(result);
 })
 
 function verifyToken(req, resp, next){
