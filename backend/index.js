@@ -274,11 +274,63 @@ app.post("/checkout", verifyToken, async (req, resp)=>{
         contact: req.body.contact,
         zip: req.body.zip,
         address: req.body.address,
+        products: req.body.products,
+        quantity: req.body.quantity,
         isPaid: "not paid"
     });
     let result = await order.save();
     resp.send(result);
 })
+
+app.put("/cartQuantity/:key", verifyToken, async (req, resp)=>{
+    let result = await Cart.updateOne(
+        {_id: req.params.key},
+        {$set: req.body}
+    )
+
+    resp.send(result);
+})
+
+app.post("/checkout/:key", verifyToken, async (req, resp)=>{
+    //console.log(req.body);
+    let products = [];
+    let quantity = [];
+    for(let key in req.body[0])
+    {
+        products.push(key+"");
+        quantity.push(req.body[0][key]);
+    }
+    //console.log(products);
+    let result = await Order.findOne({
+        contact: req.params.key,
+        products: products,
+        quantity: quantity
+    });
+    resp.send(result);
+})
+
+app.put("/paid/:key", verifyToken, async (req, resp)=>{
+    let result = await Order.updateOne(
+        {_id: req.params.key},
+        {$set: req.body}
+    )
+    resp.send(result);
+})
+
+app.get("/getOrders", verifyToken, async (req, resp)=>{
+    let result = await Order.find();
+    let ans = [];
+    for(let i=0; i<result.length; i++)
+    {
+        ans.push({id:result[i]._id, name: result[i].name, contact: result[i].contact, zip: result[i].zip, address: result[i].address, products: result[i].products, quantity: result[i].quantity, isPaid: result[i].isPaid});
+    }
+    resp.send(ans);
+})
+
+ app.get("/getOrderById/:key", verifyToken, async (req, resp)=>{
+     let result = await Order.findOne({_id: req.params.key});
+     resp.send(result);
+ })
 
 function verifyToken(req, resp, next){
     let token = req.headers['authorization'];

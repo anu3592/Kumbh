@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { productContent } from "../data/data";
 import { Currency, X } from "lucide-react"; // Ensure you have lucide-react installed, or replace with another icon
 import { useDispatch, useSelector } from "react-redux";
-import { showStatus } from "../actions";
+import { passOrder, showStatus } from "../actions";
 import { Trash2Icon } from "lucide-react";
 import { useNavigate } from "react-router";
 import axios from "axios";
@@ -22,10 +22,12 @@ const Cart = () => {
 
     const inputRef = useRef();
 
-    const [itemQuantity, setItemQuantity] = useState(0);
+    const [itemQuantity, setItemQuantity] = useState(1);
     //const itemQuantity = new Map();
 
-    
+    let passingOrder = {
+
+    };
 
     
     
@@ -112,9 +114,39 @@ const Cart = () => {
         //setItemQuantity(itemQuantity.splice(index,1));
     }
 
-    const checkout = ()=>{
+    const checkout = async ()=>{
+        let emailId = JSON.parse(localStorage.getItem('user')).email;
+
+        let result = await fetch(`http://localhost:5000/cart/${emailId}`,{
+            method: "GET",
+            headers: {
+                authorization: JSON.parse(localStorage.getItem('token')),
+                'Content-Type': 'application/json'
+            }
+        })
+        result = await result.json();
+        result.forEach((item)=>{
+            passingOrder[item.title] = item.quantity;
+        })
+        dispatch(passOrder(passingOrder));
         navigate('/check');
         dispatch(showStatus());
+    }
+
+    const fixQuantity = async (id, quantity) =>{
+        //console.log(id, quantity);
+        let result = await fetch(`http://localhost:5000/cartQuantity/${id}`, {
+            method: "PUT",
+            body: JSON.stringify({id, quantity}),
+            headers: {
+                authorization: JSON.parse(localStorage.getItem("token")),
+                'Content-Type': 'application/json'
+            }
+
+        })
+        result = await result.json();
+        console.log(result);
+        setItemQuantity(1);
     }
 
     return (
@@ -144,8 +176,8 @@ const Cart = () => {
                                 <div className="flex items-center gap-4 mt-2">
                                     <button onClick={() => handleDecrease(item.quantity)} className="px-2 py-1 bg-gray-300 rounded itemSelect hidden">-</button>
                                     <h2 id="quantity" className="text-lg font-medium hidden">{item.quantity}</h2>
-                                    <input type="number" className="bg-white w-12 h-9 p-2" placeholder="0" min={0} ref={inputRef} />
-                                    <button onClick={() => handleIncrease(item.quantity)} className="px-2 py-1 bg-gray-300 rounded itemSelect hidden">+</button>
+                                    <input type="number" className="bg-white w-12 h-9 p-2" placeholder="1" min={1} ref={inputRef} onChange={(e)=>setItemQuantity(e.target.value)}/>
+                                    <button onClick={() => fixQuantity(item._id, itemQuantity)} className="px-2 py-1 bg-gray-300 rounded itemSelect">fix quantity</button>
                                     <Trash2Icon size={25} className="cursor-pointer" onClick={() => deleteCartItem(item, index)} />
                                 </div>
                             </div>

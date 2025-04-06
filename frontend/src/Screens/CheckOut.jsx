@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import kumbhLogo from "../assets/images/kumbh.jpg"
+import { useSelector } from "react-redux";
+import passOrderItem from "../reducers/passOrderItem";
 
 const CheckOut = () => {
 
@@ -8,6 +10,8 @@ const CheckOut = () => {
     const [contact, setContact] = useState(0);
     const [zip, setZip] = useState(0);
     const [address, setAddress] = useState("");
+    const orderedItems = useSelector((state)=>state.passOrderItem);
+    const [ordersRecieved, setOrdersRecieved] = useState(null);
 
     const loadScript = (src) => {
         return new Promise((resolve) => {
@@ -64,9 +68,32 @@ const CheckOut = () => {
                         signature: response.razorpay_signature
                     }
 
-                    axios.post('http://localhost:5000/api/verifyPayment', options2).then((res) => {
+                    axios.post('http://localhost:5000/api/verifyPayment', options2).then(async (res) => {
                         console.log(res.data);
                         if (res.data.success) {
+
+                            let getOrderForPaid = await fetch(`http://localhost:5000/checkout/${contact}`,{
+                                method: "POST",
+                                body: JSON.stringify(orderedItems),
+                                headers: {
+                                    authorization: JSON.parse(localStorage.getItem("token")),
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                            getOrderForPaid = await getOrderForPaid.json();
+                            //console.log(getOrderForPaid);
+
+                            let changePaidStatus = await fetch(`http://localhost:5000/paid/${getOrderForPaid._id}`, {
+                                method: "PUT",
+                                body: JSON.stringify({isPaid: "paid"}),
+                                headers: {
+                                    authorization: JSON.parse(localStorage.getItem("token")),
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                            changePaidStatus = await changePaidStatus.json();
+                            console.log(changePaidStatus);
+
                             alert("Payment Successful");
                         }
                         else {
@@ -101,9 +128,20 @@ const CheckOut = () => {
     const submit = async (e) => {
         e.preventDefault();
 
+         let products = [];
+         let quantity = [];
+         for(let key in orderedItems[0])
+         {
+             products.push(`${key}`);
+            
+             quantity.push(orderedItems[0][`${key}`]);
+         }
+        console.log(orderedItems);
+
+        //console.log(products);
         let result = await fetch("http://localhost:5000/checkout", {
             method: "POST",
-            body: JSON.stringify({ name, contact, zip, address }),
+            body: JSON.stringify({ name, contact, zip, address, products, quantity }),
             headers: {
                 authorization: JSON.parse(localStorage.getItem("token")),
                 'content-type': 'application/json'
@@ -117,8 +155,21 @@ const CheckOut = () => {
 
     }
 
+    useEffect(()=>{
+        if (orderedItems[0] === undefined) {
+            setOrdersRecieved(null);
+
+        }
+        else if (orderedItems[0].length > 0) {
+
+            setOrdersRecieved(orderedItems[0]);
+
+        }
+        console.log(orderedItems[0]);
+    },[])
 
     useEffect(() => {
+        
         loadScript('http://checkout.razorpay.com/v1/checkout.js')
     }, [])
 

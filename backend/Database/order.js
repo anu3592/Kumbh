@@ -5,6 +5,8 @@ const orderSchema = mongoose.Schema({
     contact: Number,
     zip: Number,
     address: String,
+    products: [String],
+    quantity: [Number],
     isPaid: String,
 });
 

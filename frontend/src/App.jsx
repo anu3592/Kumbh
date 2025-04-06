@@ -15,6 +15,7 @@ import Cart from './SupportScreens/Cart';
 import AddProduct from './Admin/AddProduct';
 import Dash from './Admin/Dash';
 import UpdateProduct from './Admin/UpdateProduct';
+import PopupExample from './Admin/PopupExample';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -36,6 +37,7 @@ function App() {
           <Route path='/add' element={<AddProduct/>}/>
           <Route path='/dash' element={<Dash/>}/>
           <Route path='/update/:id' element={<UpdateProduct/>}/>
+          <Route path='/popup/:id' element={<PopupExample/>}/>
         </Routes>
 
       </BrowserRouter>
