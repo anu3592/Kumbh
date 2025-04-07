@@ -29,7 +29,7 @@ const OrderList = () => {
     const deleteTheOrder = async (id) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this item?");
         if (confirmDelete) {
-            let result = await fetch(`http://localhost:5000/deleteProduct/${id}`, {
+            let result = await fetch(`http://localhost:5000/deleteOrder/${id}`, {
                 method: "DELETE",
                 headers: {
                     authorization: JSON.parse(localStorage.getItem("token")),
@@ -45,7 +45,7 @@ const OrderList = () => {
     }
 
     const searchItem = async()=>{
-        let result = await fetch(`http://localhost:5000/searchDashProduct/${searchOrder}`,{
+        let result = await fetch(`http://localhost:5000/searchDashOrder/${searchOrder}`,{
             method: "GET",
             headers: {
                 authorization: JSON.parse(localStorage.getItem("token"))

@@ -3,6 +3,7 @@ import axios from "axios";
 import kumbhLogo from "../assets/images/kumbh.jpg"
 import { useSelector } from "react-redux";
 import passOrderItem from "../reducers/passOrderItem";
+import { useNavigate } from "react-router";
 
 const CheckOut = () => {
 
@@ -10,8 +11,9 @@ const CheckOut = () => {
     const [contact, setContact] = useState(0);
     const [zip, setZip] = useState(0);
     const [address, setAddress] = useState("");
-    const orderedItems = useSelector((state)=>state.passOrderItem);
+    const orderedItems = useSelector((state) => state.passOrderItem);
     const [ordersRecieved, setOrdersRecieved] = useState(null);
+    const navigate = useNavigate();
 
     const loadScript = (src) => {
         return new Promise((resolve) => {
@@ -72,7 +74,7 @@ const CheckOut = () => {
                         console.log(res.data);
                         if (res.data.success) {
 
-                            let getOrderForPaid = await fetch(`http://localhost:5000/checkout/${contact}`,{
+                            let getOrderForPaid = await fetch(`http://localhost:5000/checkout/${contact}`, {
                                 method: "POST",
                                 body: JSON.stringify(orderedItems),
                                 headers: {
@@ -81,20 +83,22 @@ const CheckOut = () => {
                                 }
                             });
                             getOrderForPaid = await getOrderForPaid.json();
-                            //console.log(getOrderForPaid);
+                            console.log(getOrderForPaid);
+                            
+                            
+                                let changePaidStatus = await fetch(`http://localhost:5000/paid/${getOrderForPaid._id}`, {
+                                    method: "PUT",
+                                    body: JSON.stringify({ isPaid: "paid" }),
+                                    headers: {
+                                        authorization: JSON.parse(localStorage.getItem("token")),
+                                        'Content-Type': 'application/json'
+                                    }
+                                });
+                                changePaidStatus = await changePaidStatus.json();
+                                console.log(changePaidStatus);
 
-                            let changePaidStatus = await fetch(`http://localhost:5000/paid/${getOrderForPaid._id}`, {
-                                method: "PUT",
-                                body: JSON.stringify({isPaid: "paid"}),
-                                headers: {
-                                    authorization: JSON.parse(localStorage.getItem("token")),
-                                    'Content-Type': 'application/json'
-                                }
-                            });
-                            changePaidStatus = await changePaidStatus.json();
-                            console.log(changePaidStatus);
-
-                            alert("Payment Successful");
+                                alert("Payment Successful");
+                            
                         }
                         else {
                             alert("Payemnt Failed");
@@ -127,15 +131,15 @@ const CheckOut = () => {
 
     const submit = async (e) => {
         e.preventDefault();
+        if(orderedItems[0])
+        {
+        let products = [];
+        let quantity = [];
+        for (let key in orderedItems[0]) {
+            products.push(`${key}`);
 
-         let products = [];
-         let quantity = [];
-         for(let key in orderedItems[0])
-         {
-             products.push(`${key}`);
-            
-             quantity.push(orderedItems[0][`${key}`]);
-         }
+            quantity.push(orderedItems[0][`${key}`]);
+        }
         console.log(orderedItems);
 
         //console.log(products);
@@ -152,10 +156,15 @@ const CheckOut = () => {
         console.log(result);
 
         onPayment(100, "dummy");
+    }
+    else{
+        alert("Please Don't refresh the checkout page while moved from cart page your data is lost... Try Again!!!");
+        navigate('/');
+    }
 
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         if (orderedItems[0] === undefined) {
             setOrdersRecieved(null);
 
@@ -166,10 +175,10 @@ const CheckOut = () => {
 
         }
         console.log(orderedItems[0]);
-    },[])
+    }, [])
 
     useEffect(() => {
-        
+
         loadScript('http://checkout.razorpay.com/v1/checkout.js')
     }, [])
 
