@@ -1,14 +1,15 @@
-#root {
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
+} */
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%; /* Ensure full height */
   margin: 0;
-  
 }
 
 .logo {
@@ -47,15 +48,14 @@ html, body, #root {
   color: #888;
 }
 
-#siteName{
+#siteName {
   font-style: italic;
   font-weight: bold;
   font-size: 3vw;
-  font-family: 'cursive';
-
+  font-family: "cursive";
 }
 
-#searchBtn{
+#searchBtn {
   border-radius: 1em;
   height: 50px;
   min-height: 25px;
@@ -63,7 +63,7 @@ html, body, #root {
   min-width: 50px;
 }
 
-#searchBtn:hover{
+#searchBtn:hover {
   border-color: green;
 }
 
@@ -85,82 +85,81 @@ html, body, #root {
   }
 }
 
-#catFont{
-  font-family: 'cursive'; 
+#catFont {
+  font-family: "cursive";
 }
 
-
-@media(max-width: 412px) {
-  .smallSize{
+@media (max-width: 412px) {
+  .smallSize {
     height: 100%;
   }
 }
 
-#login{
-  font-family: 'cursive';
+#login {
+  font-family: "cursive";
 }
-#logout{
-  font-family: 'cursive';
+#logout {
+  font-family: "cursive";
 }
-#signup{
-  font-family: 'cursive';
+#signup {
+  font-family: "cursive";
 }
 
-.boxshadow{
+.boxshadow {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#filter{
-  font-family: 'cursive';
+#filter {
+  font-family: "cursive";
   font-style: italic;
 }
 
-.headStyle{
-  font-family: 'cursive';
+.headStyle {
+  font-family: "cursive";
   font-style: italic;
 }
 
-@media(width <1024px){
-  .hide{
+@media (width <1024px) {
+  .hide {
     font-size: 0px;
   }
 }
 
-.itemSelect{
+.itemSelect {
   border: none;
 }
 
-.itemSelect:hover{
-  background-color: rgb(255,255,224);
+.itemSelect:hover {
+  background-color: rgb(255, 255, 224);
   /*border: none;*/
 }
 
-.itemSelect:active{
-  background-color: rgb(240,230,140);
+.itemSelect:active {
+  background-color: rgb(240, 230, 140);
   /* border: none; */
 }
 
-.checkOut{
-  background-color: rgb(205, 133,63);
-  
+.checkOut {
+  background-color: rgb(205, 133, 63);
 }
 
-.styleButton{
-  box-shadow: 0 4px 8px 0 rgba(7, 129, 108, 0.2), 0 6px 20px 0 rgba(7, 129, 108, 0.2);
+.styleButton {
+  box-shadow: 0 4px 8px 0 rgba(7, 129, 108, 0.2),
+    0 6px 20px 0 rgba(7, 129, 108, 0.2);
 }
 
-.styleButton:hover{
-  box-shadow: 0 4px 8px 0 rgba(0,0,0, 0.2), 0 6px 20px 0 rgba(0,0,0, 0.2);
+.styleButton:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
   color: white;
   background-color: rgba(7, 129, 108, 0.2);
 }
 
-.productForm{
+.productForm {
   background: linear-gradient(90deg, pink, skyblue);
-  box-shadow: 0 4px 8px 0 rgba(0,0,0, 0.2), 0 6px 20px 0 rgba(0,0,0, 0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
 }
 
-.dashButtons{
+.dashButtons {
   padding: 2px;
 }
 
@@ -169,11 +168,10 @@ td {
   margin: 20px;
 }
 
-.header{
+.header {
   max-width: 1520px;
 }
 
-.footer{
+.footer {
   max-width: 1520px;
 }
-
