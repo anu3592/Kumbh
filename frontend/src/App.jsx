@@ -16,6 +16,7 @@ import AddProduct from './Admin/AddProduct';
 import Dash from './Admin/Dash';
 import UpdateProduct from './Admin/UpdateProduct';
 import PopupExample from './Admin/PopupExample';
+import Tracking from './Screens/Tracking';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -38,6 +39,7 @@ function App() {
           <Route path='/dash' element={<Dash/>}/>
           <Route path='/update/:id' element={<UpdateProduct/>}/>
           <Route path='/popup/:id' element={<PopupExample/>}/>
+          <Route path='/track' element={<Tracking/>}/>
         </Routes>
 
       </BrowserRouter>

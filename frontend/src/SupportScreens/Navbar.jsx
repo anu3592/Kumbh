@@ -107,6 +107,7 @@ const Navbar = () => {
                                     <>
                                         {isAdmin && <li id="logout" className="font-bold m-3 p-2 text-black cursor-pointer font-sans rounded-lg styleButton" onClick={() => navigate('/dash')}>Go To Dashboard</li>}
                                         <li id="logout" className="font-bold m-3 p-2 text-black cursor-pointer font-sans rounded-lg styleButton" onClick={() => logout()}>Logout</li>
+                                        {!isAdmin && <li id="orders" className="font-bold m-3 p-2 text-amber-700 cursor-pointer font-sans rounded-lg headStyle" onClick={() => navigate('/track')}>My Orders</li>}
                                     </> :
                                     <>
                                         <Link to="/login"><li id="login" className="font-bold m-3 p-2 text-black cursor-pointer font-sans rounded-lg styleButton" onClick={() => setClicked(!clicked)}>Login</li></Link>

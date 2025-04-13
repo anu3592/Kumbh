@@ -11,9 +11,11 @@ const CheckOut = () => {
     const [contact, setContact] = useState(0);
     const [zip, setZip] = useState(0);
     const [address, setAddress] = useState("");
+    const [email, setEmail] = useState("");
     const orderedItems = useSelector((state) => state.passOrderItem);
     const [ordersRecieved, setOrdersRecieved] = useState(null);
     const navigate = useNavigate();
+    let orderId = Math.floor(1000000000 + Math.random() * 9000000000);
 
     const loadScript = (src) => {
         return new Promise((resolve) => {
@@ -74,7 +76,7 @@ const CheckOut = () => {
                         console.log(res.data);
                         if (res.data.success) {
 
-                            let getOrderForPaid = await fetch(`http://localhost:5000/checkout/${contact}`, {
+                            let getOrderForPaid = await fetch(`http://localhost:5000/checkout/${orderId}`, {
                                 method: "POST",
                                 body: JSON.stringify(orderedItems),
                                 headers: {
@@ -83,12 +85,12 @@ const CheckOut = () => {
                                 }
                             });
                             getOrderForPaid = await getOrderForPaid.json();
-                            console.log(getOrderForPaid);
+                            console.log("data",getOrderForPaid);
                             
                             
                                 let changePaidStatus = await fetch(`http://localhost:5000/paid/${getOrderForPaid._id}`, {
                                     method: "PUT",
-                                    body: JSON.stringify({ isPaid: "paid" }),
+                                    body: JSON.stringify({ isPaid: "paid", status: "ordered"}),
                                     headers: {
                                         authorization: JSON.parse(localStorage.getItem("token")),
                                         'Content-Type': 'application/json'
@@ -98,7 +100,7 @@ const CheckOut = () => {
                                 console.log(changePaidStatus);
 
                                 alert("Payment Successful");
-                            
+                                navigate('/');
                         }
                         else {
                             alert("Payemnt Failed");
@@ -141,11 +143,12 @@ const CheckOut = () => {
             quantity.push(orderedItems[0][`${key}`]);
         }
         console.log(orderedItems);
-
+        let ownerEmail = JSON.parse(localStorage.getItem("user")).email;
         //console.log(products);
+        console.log("OrderId", orderId);
         let result = await fetch("http://localhost:5000/checkout", {
             method: "POST",
-            body: JSON.stringify({ name, contact, zip, address, products, quantity }),
+            body: JSON.stringify({ name, contact, email, zip, address, products, quantity, orderId, ownerEmail}),
             headers: {
                 authorization: JSON.parse(localStorage.getItem("token")),
                 'content-type': 'application/json'
@@ -188,6 +191,7 @@ const CheckOut = () => {
             <div className="flex flex-col">
                 <input type="text" className="border-2 border-black rounded-lg p-5 m-4 w-[300px] h-5 bg-white" placeholder="Enter your name..." onChange={(e) => setName(e.target.value)} />
                 <input type="number" className="border-2 border-black rounded-lg p-5 m-4 w-[300px] h-5 bg-white" placeholder="Enter your phone number..." onChange={(e) => setContact(e.target.value)} />
+                <input type="email" className="border-2 border-black rounded-lg p-5 m-4 w-[300px] h-5 bg-white" placeholder="Enter your email..." onChange={(e) => setEmail(e.target.value)} />
                 <input type="number" className="border-2 border-black rounded-lg p-5 m-4 w-[300px] h-5 bg-white" placeholder="Enter the zip code..." onChange={(e) => setZip(e.target.value)} />
                 <textarea cols="5" rows="3" placeholder="Enter the Address..." className="border-2 border-black rounded-lg p-5 m-4 w-[300px] h-5 bg-white" onChange={(e) => setAddress(e.target.value)}></textarea>
                 <button type="button" className="w-[30%] text-[2vw] m-2 text-white bg-white" style={{ backgroundColor: "blue" }} onClick={(e) => submit(e)}>Submit</button>

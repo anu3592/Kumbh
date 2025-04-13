@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { passPopup, showPopup } from "../actions";
+import { passPopup, passPopupOrderId, showPopup } from "../actions";
 
 const OrderList = () => {
     const [orders, setOrders] = useState(null);
@@ -24,6 +24,7 @@ const OrderList = () => {
 
         result = await result.json();
         setOrders(result);
+        console.log(result);
     }
 
     const deleteTheOrder = async (id) => {
@@ -63,8 +64,10 @@ const OrderList = () => {
 
     const itemsLinkClicked = (item)=>{
         let popupValues = [item.products, item.quantity];
-        dispatch(showPopup());
+        dispatch(showPopup());        
         dispatch(passPopup(popupValues));
+        
+        dispatch(passPopupOrderId(item.orderId));
     }
 
     return (
@@ -86,6 +89,7 @@ const OrderList = () => {
                                 <td>{item.address}</td>
                                 <td><Link to={'/popup/'+item.id} onClick={()=>itemsLinkClicked(item)}>items</Link></td>
                                 <td>{item.isPaid}</td>
+                                <td>{item.status}</td>
                                 <td><FaTrash size={20} className="cursor-pointer" onClick={() => deleteTheOrder(item.id)} /></td>
                             </tr>)
                         )}

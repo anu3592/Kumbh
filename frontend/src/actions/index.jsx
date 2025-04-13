@@ -37,3 +37,10 @@ export const passPopup = (item)=>{
         payload: item
     }
 }
+
+export const passPopupOrderId = (id)=>{
+    return{
+        type: 'ORDERID',
+        payload: id
+    }
+}

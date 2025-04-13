@@ -4,6 +4,7 @@ import { Navigate, useNavigate } from "react-router";
 const Signup = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [contact, setContact] = useState(0);
     const [address, setAddress] = useState("");
     const [password, setPassword] = useState("");
     const [cpass, setCpass] = useState("");
@@ -25,7 +26,7 @@ const Signup = () => {
         else {
             let signupResponse = await fetch("http://localhost:5000/register", {
                 method: "POST",
-                body: JSON.stringify({ name, email, address, password }),
+                body: JSON.stringify({ name, email, contact, address, password }),
                 headers: {
                     'content-type': 'application/json'
                 },
@@ -48,6 +49,7 @@ const Signup = () => {
                     <h1 className="text-4xl text-orange-500 font-bold p-4 m-4">Sign Up</h1>
                     <input placeholder="enter your name..." className="border-2 border-gray-900 rounded-md m-8 lg:w-[300px] sm:w-[200px] lg:h-10 sm:h-8 p-2" onChange={(e) => setName(e.target.value)}></input>
                     <input placeholder="enter the email address..." type="email" className="border-2 border-gray-900 rounded-md m-8 lg:w-[300px] sm:w-[200px] lg:h-10 sm:h-8 p-2" onChange={(e) => setEmail(e.target.value)}></input>
+                    <input placeholder="enter the phone number..." type="number" className="border-2 border-gray-900 rounded-md m-8 lg:w-[300px] sm:w-[200px] lg:h-10 sm:h-8 p-2" onChange={(e) => setContact(e.target.value)}></input>
                     <textarea placeholder="Enter your address..." className="border-2 rounded-md p-2" rows='4' cols='50' onChange={(e) => setAddress(e.target.value)}></textarea>
                     <input placeholder="enter the password..." className="border-2 border-gray-900 rounded-md m-8 lg:w-[300px] sm:w-[200px] lg:h-10 sm:h-8 p-2" type="password" onChange={(e) => setPassword(e.target.value)}></input>
                     <input placeholder="confirm password..." className="border-2 border-gray-900 rounded-md m-8 lg:w-[300px] sm:w-[200px] lg:h-10 sm:h-8 p-2" type="password" onChange={(e) => setCpass(e.target.value)}></input>

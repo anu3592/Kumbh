@@ -8,6 +8,7 @@ const PopupExample = () => {
   const [showAlert, setShowAlert] = useState(false);
   const getPopupStatus = useSelector((state) => state.showItemPopup);
   const getPopupValues = useSelector((state) => state.passPopupItem);
+  const getOrderId = useSelector((state)=> state.passPopupOrderId.orderId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const param = useParams();
@@ -29,7 +30,6 @@ const PopupExample = () => {
     //getOrderAccId();
     setLoading(false);
     console.log(orders);
-
   }, [orders])
 
   const handleCloseAlert = () => {
@@ -104,7 +104,7 @@ const PopupExample = () => {
                 }}
               >
                 <h3 style={{ marginBottom: '10px' }}>Order Details</h3>
-
+                <h3>Order Id : {getOrderId}</h3>
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <tbody>
                     {orders ? (<>
