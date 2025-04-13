@@ -17,3 +17,23 @@ export const passCart = (item)=>{
         payload: item
     }
 }
+
+export const passOrder = (item)=>{
+    return {
+        type: 'ORDER',
+        payload: item
+    }
+}
+
+export const showPopup = ()=>{
+    return {
+        type: 'POPUP'    
+    }
+}
+
+export const passPopup = (item)=>{
+    return{
+        type: 'PASSPOPUP',
+        payload: item
+    }
+}

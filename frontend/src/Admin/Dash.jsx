@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProductList from "./ProductList";
 import UserList from "./UserList";
 import { Link, useNavigate } from "react-router";
+import OrderList from "./OrderList";
 
 
 
@@ -24,7 +25,7 @@ const Dash = () => {
                 <div className="flex flex-row w-full h-[500px] justify-center items-center">
                     <div className="flex flex-col w-[40%] h-full rounded-2xl bg-blue-300 items-center boxshadow mt-2 mb-2 mr-2 ml-[-30px]">
                         <h2 className="headStyle m-2 text-2xl font-bold">Options</h2>
-                        <button className="w-[40%] m-2 text-[1vw] dashButtons">Orders</button>
+                        <button className="w-[40%] m-2 text-[1vw] dashButtons" onClick={()=>setActiveComponent("orders")}>Orders</button>
                         <button className="w-[50%] m-2 text-[1vw] dashButtons" onClick={()=>setActiveComponent("products")}>Products</button>
                         <button className="w-[40%] m-2 text-[1vw] dashButtons" onClick={()=>setActiveComponent("users")}>Users</button>
                         <button className="w-[40%] m-2 text-[1vw] dashButtons" onClick={()=>navigate('/add')}>Add Products</button>
@@ -33,7 +34,8 @@ const Dash = () => {
                     <div className="flex flex-row min-w-[60%] h-full bg-gray-200 rounded-lg m-2 justify-center boxshadow  overflow-x-auto">
                         {activeComponent === "products" && <ProductList/>}
                         {activeComponent === "users" && <UserList/>}
-                        
+                        {activeComponent === "orders" && <OrderList/>}
+
                     </div>
                 </div>
 
