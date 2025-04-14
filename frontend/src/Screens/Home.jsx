@@ -23,16 +23,11 @@ const Home = () => {
           <div className="flex flex-col items-center m-2">
             <h1 className="m-2">Welcome to Kumbh</h1>
             <p className="m-2">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
+            At Kumbh, we believe that beautiful, sustainable living should be accessible to everyone.
+            Our collection of handcrafted clay pots, vases, planters, and home décor items is designed to bring nature into your home while being kind to the planet. 
+            Made from natural, eco-friendly materials, each piece is carefully crafted to add charm, warmth, and personality to your space. 
+            Whether you're looking to enhance your garden, elevate your indoor décor, or fyind the perfect gift, our products offer the perfect balance of style, sustainability, and quality. 
+            Join us in creating a greener future, one beautiful piece at a time.
             </p>
           </div>
           <div className="flex items-center justify-center rounded-2xl object-cover bg-gray-200 shadow-lg m-2">
