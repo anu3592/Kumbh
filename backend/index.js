@@ -361,6 +361,24 @@ app.post('/getTrackOrder', verifyToken, async (req, resp)=>{
 
 })
 
+app.get('/getTrackImages/:key', verifyToken, async (req, resp)=>{
+    let result = await Product.findOne({
+        title: req.params.key
+    });
+
+    if(result)
+    {
+        let arr = result.img.data;
+        let bufferData = Buffer.from(arr);
+        let base64String = bufferData.toString('base64');
+        resp.send({base64String});
+    }
+    else{
+        resp.send({error: "no result found"});
+    }
+
+})
+
 function verifyToken(req, resp, next) {
     let token = req.headers['authorization'];
     if (token) {

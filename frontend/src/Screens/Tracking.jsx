@@ -4,12 +4,18 @@ import React, { useEffect, useState } from 'react';
 const Tracking = () => {
     const status = ['Ordered', 'Shipped', 'Delivered'];
     const [orders, setOrders] = useState(null);
-    let productName = [];
+    const [productName, setProductName] = useState([]);
+    const [productImage, setProductImage] = useState([]);
     let currentStep = 0;
 
     useEffect(() => {
         getOrderDetails();
+
     }, []);
+
+    // useEffect(()=>{
+    //     getImageDetail();
+    // },[])
 
     const getOrderDetails = async () => {
 
@@ -28,16 +34,35 @@ const Tracking = () => {
         console.log(result);
         setOrders(result);
 
-        result.map((order,index)=>{
+        result.map((order, index) => {
             let emptyPrdouct = [];
-            order.products.map((product, i)=>{
+            order.products.map((product, i) => {
                 emptyPrdouct.push(product);
             });
-            productName.push(emptyPrdouct);
+            setProductName(productName.push(emptyPrdouct));
         })
 
-        
-        console.log(productName);
+        productName.map(async (product, index) => {
+            let emptyArr = [];
+            product.map(async (item, index) => {
+                let getImages = await fetch(`http://localhost:5000/getTrackImages/${item}`, {
+                    method: 'GET',
+                    headers: {
+                        authorization: JSON.parse(localStorage.getItem('token')),
+                        'Content-Type': 'application/json'
+                    }
+                });
+                getImages = await getImages.json();
+                emptyArr.push(getImages);
+            })
+            setProductImage(productImage.push(emptyArr));
+        })
+        console.log(productImage);
+
+    }
+
+    const getImageDetail = () => {
+
     }
 
     return (
@@ -48,8 +73,23 @@ const Tracking = () => {
                         orders.map((order, index) =>
                             <div className='grid grid-cols-2 sm:grid-cols-1 m-10'>
                                 <div className='flex object-cover items-center'>
-
+                                    {productImage.map((images,i)=>
+                                    <div className="w-72">
+                                        {images.length === 1 ? (
+                                            <img src={`data:image/jpg;base64,${images.base64String}`} alt="Product" className="rounded-lg shadow-md" />
+                                        ) : (
+                                            <Swiper spaceBetween={10} slidesPerView={1} loop={true}>
+                                                {images.map((img, idx) => (
+                                                    <SwiperSlide key={idx}>
+                                                        <img src={`data:image/jpg;base64,${img.base64String}`} alt={`Product ${idx}`} className="rounded-lg shadow-md" />
+                                                    </SwiperSlide>
+                                                ))}
+                                            </Swiper>
+                                        )}
+                                    </div>
+                                    )}
                                 </div>
+                                    
 
                                 <div className='flex flex-col items-center justify-center'>
                                     <h2 className='text-3xl font-bold mb-4'>Order Tracking</h2>
@@ -89,12 +129,12 @@ const Tracking = () => {
                                 </div>
                             </div>
                         )}
-                </>:
+                </> :
                 <div className='flex flex-row h-full w-full'>
-                <div className='flex flex-col w-[400px] h-[200px] rounded-xl bg-purple-400 items-center justify-center m-10 boxshadow'>
-                    <h2 className='text-2xl font-bold'>No Order yet</h2>
-                    <p className='text-lg'>Please make an order to view the track status...</p>
-                </div>
+                    <div className='flex flex-col w-[400px] h-[200px] rounded-xl bg-purple-400 items-center justify-center m-10 boxshadow'>
+                        <h2 className='text-2xl font-bold'>No Order yet</h2>
+                        <p className='text-lg'>Please make an order to view the track status...</p>
+                    </div>
                 </div>
             }
         </>
