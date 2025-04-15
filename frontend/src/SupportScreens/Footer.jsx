@@ -1,50 +1,121 @@
-import { FaTwitterSquare, FaGithubSquare, FaInstagramSquare, FaFacebookSquare } from 'react-icons/fa'
-function Footer()
-{
+import { 
+    FaTwitterSquare,
+    FaGithubSquare,
+    FaInstagramSquare,
+    FaFacebookSquare,
+    FaCcVisa,
+    FaCcMastercard,
+    FaCcAmex,
+    FaCcPaypal,
+    FaArrowCircleUp,
+    FaWhatsappSquare,  // Added WhatsApp Icon
+  } from "react-icons/fa";
+  import { useEffect, useState } from "react";
+  
+  function Footer() {
+    const [showScroll, setShowScroll] = useState(false);
+  
+    // Show scroll button only after 200px scroll
+    useEffect(() => {
+      const handleScroll = () => {
+        setShowScroll(window.scrollY > 200);
+      };
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+  
+    const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+  
     return (
-        <div className="max-w-[1520px] m-auto px-4 py-2 bg-[#24262b]">
-            <div className="py-16 px-4 grid lg:grid-cols-3 gap-8 text-gray-300">
-                <div>
-                    <h1 className="w-full text-3xl font-bold text-orange-500">Kumbh</h1>
-                    <p>
-                        The very intersting site with easily usable and easy experienced to our every
-                        user or customer is now available at different countries and cities and now easily available at 
-                        mobile phone. Let's have some good time.
-                    </p>
-                    <div className="flex justify-between md:w-[75%] my-6">
-                        <FaFacebookSquare size={30}/>
-                        <FaGithubSquare size={30}/>
-                        <FaInstagramSquare size={30}/>
-                        <FaTwitterSquare size={30}/>
-                    </div>
-                </div>
-                <div className='lg:col-span-2 flex justify-between mt-6'>
-                    <div>
-                        <h6 className='font-medium text-[#9b9b9b]'>About</h6>
-                        <ul>
-                            <li className='py-2 text-sm'>About Us</li>
-                            <li className='py-2 text-sm'>Contact Us</li>
-                            <li className='py-2 text-sm'>Shop</li>
-                            <li className='py-2 text-sm'>Store Locator</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h6 className='font-medium text-[#9b9b9b]'>Get in Touch</h6>
-                        <ul>
-                            <li className='py-2 text-sm'>+91999999999</li>
-                            <li className='py-2 text-sm'>+91888888888</li>
-                            <li className='py-2 text-sm'>Timing</li>
-                            <li>10:30am to 7pm</li>
-                            <li className='py-2 text-sm'>Email</li>
-                            <li>abc@gmail.com</li>
-                        </ul>
-                    </div>
-                    
-                </div>
+      <footer className="relative max-w-[1520px] mx-auto px-4 py-12 bg-[#1e1f23] text-gray-300">
+        {/* Scroll-to-top button */}
+        {showScroll && (
+          <button
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 z-50 text-orange-500 hover:text-white transition-colors"
+            aria-label="Scroll to top"
+          >
+            <FaArrowCircleUp size={36} />
+          </button>
+        )}
+  
+        <div className="grid lg:grid-cols-3 gap-10">
+          {/* Brand & Social */}
+          <div>
+            <h1 className="text-3xl font-bold text-orange-500">Kumbh</h1>
+            <p className="mt-4 text-sm text-gray-400 leading-6 max-w-md">
+              Curating timeless, handcrafted décor from the heart of Indian artisanship.
+              Now delivering globally with love and sustainability.
+            </p>
+            <div className="flex space-x-4 mt-6">
+              <a href="https://www.facebook.com/kumbh.pottery" target="_blank" rel="noreferrer">
+                <FaFacebookSquare size={28} className="hover:text-blue-500" />
+              </a>
+              <a href="https://www.instagram.com/kumbh_handcrafted" target="_blank" rel="noreferrer">
+                <FaInstagramSquare size={28} className="hover:text-pink-500" />
+              </a>
+              <a href="https://twitter.com/kumbh_ceramics" target="_blank" rel="noreferrer">
+                <FaTwitterSquare size={28} className="hover:text-sky-400" />
+              </a>
+              <a href="https://wa.me/917807210742" target="_blank" rel="noreferrer">  {/* Added WhatsApp Link */}
+                <FaWhatsappSquare size={28} className="hover:text-green-500" />
+              </a>
             </div>
+          </div>
+  
+          {/* Company Links */}
+          <div className="grid sm:grid-cols-2 gap-8">
+            <div>
+              <h6 className="text-sm text-gray-400 font-semibold mb-4 uppercase">Company</h6>
+              <ul className="space-y-2 text-sm">
+                <li><a href="/about" className="hover:text-white">About Us</a></li>
+                <li><a href="/contact" className="hover:text-white">Contact Us</a></li>
+                <li><a href="/shop" className="hover:text-white">Shop</a></li>
+                <li><a href="/stores" className="hover:text-white">Store Locator</a></li>
+              </ul>
+            </div>
+  
+            {/* Contact Info */}
+            <div>
+              <h6 className="text-sm text-gray-400 font-semibold mb-4 uppercase">Get in Touch</h6>
+              <ul className="space-y-2 text-sm">
+                <li>
+                  <a href="tel:+917006600321" className="hover:text-white">+91 70066 00321</a>
+                </li>
+                <li>
+                  <a href="tel:+917890078902" className="hover:text-white">+91 78900 78902</a>
+                </li>
+                <li className="text-gray-400">Mon–Sun: 10:00 AM – 10:00 PM</li>
+                <li>
+                  <a href="mailto:hello@kumbhstore.com" className="hover:text-white">
+                    hello@kumbhstore.com
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        
-    )
-}
-
-export default Footer
+  
+        {/* Payment Icons */}
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between">
+          <p className="text-sm text-gray-500">We accept:</p>
+          <div className="flex space-x-4 mt-2 sm:mt-0">
+            <FaCcVisa size={36} className="text-blue-500" />
+            <FaCcMastercard size={36} className="text-red-600" />
+            <FaCcAmex size={36} className="text-blue-300" />
+            <FaCcPaypal size={36} className="text-yellow-400" />
+          </div>
+        </div>
+  
+        {/* Bottom Strip */}
+        <div className="border-t border-gray-700 mt-8 pt-4 text-center text-xs text-gray-500">
+          © {new Date().getFullYear()} Kumbh Store · Crafted with ♥ in India.
+        </div>
+      </footer>
+    );
+  }
+  
+  export default Footer;
+  
