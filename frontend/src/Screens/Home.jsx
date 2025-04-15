@@ -21,7 +21,7 @@ const Home = () => {
       <div className="flex flex-col w-full h-full z-10 mt-9 justify-center">
         <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-6 py-4 w-full m-3">
           <div className="flex flex-col items-center m-2">
-            <h1 className="m-2">Welcome to Kumbh</h1>
+            <h1 className="m-2">Welcome Govind</h1>
             <p className="m-2">
             At Kumbh, we believe that beautiful, sustainable living should be accessible to everyone.
             Our collection of handcrafted clay pots, vases, planters, and home décor items is designed to bring nature into your home while being kind to the planet. 
