@@ -18,6 +18,11 @@ body,
   will-change: filter;
   transition: filter 300ms;
 }
+.websitLogo {
+  mix-blend-mode: color-burn;
+  margin-left: 25px;
+  margin-right: 15px;
+}
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
@@ -65,6 +70,21 @@ body,
 
 #searchBtn:hover {
   border-color: green;
+}
+.footerIcon-style {
+  color: white;
+  mix-blend-mode: exclusion;
+}
+.footerStaticContent {
+  color: #d67f28;
+  font-weight: 650;
+}
+.link-style,
+.detailsFooter {
+  color: white;
+}
+.link-style:hover {
+  color: #cd853f;
 }
 
 @media (min-width: 400px) {
