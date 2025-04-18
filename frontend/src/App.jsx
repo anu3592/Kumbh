@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -18,17 +19,17 @@ import UpdateProduct from './Admin/UpdateProduct';
 import PopupExample from './Admin/PopupExample';
 import Tracking from './Screens/Tracking';
 
+
 function App() {
   const [count, setCount] = useState(0);
-  
 
   return (
-    <div className='App'>
+    <div className="App">
       <BrowserRouter>
-        
-          <Navbar />
+        <Navbar />
 
         <Routes>
+
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
@@ -40,13 +41,12 @@ function App() {
           <Route path='/update/:id' element={<UpdateProduct/>}/>
           <Route path='/popup/:id' element={<PopupExample/>}/>
           <Route path='/track' element={<Tracking/>}/>
-        </Routes>
 
+        </Routes>
       </BrowserRouter>
       <Footer />
-      
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
