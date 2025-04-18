@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router";
 
 const Signup = () => {
+
 //<<<<<<< HEAD
+
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [contact, setContact] = useState(0);
@@ -41,7 +43,11 @@ const Signup = () => {
             }
 
         }
+
 {/*=======
+=======
+=======
+>>>>>>> 17a29b5cc3991647f9252d26ebc2e48a0bd51ee1
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
@@ -56,8 +62,10 @@ const Signup = () => {
 >>>>>>> c0f8380e2d80d69968373a6fe1f88bd2623fa3b3
     }
   });
+
 */}
 {/*<<<<<<< HEAD*/}
+
     return (
         <div>
             <div className="flex w-full justify-center items-center">
@@ -72,7 +80,11 @@ const Signup = () => {
                     <button className="border-none bg-blue-400 rounded-md text-white m-8 w-[100px] " style={{ backgroundColor: 'skyblue' }} onClick={(e) => register(e)}>Sign Up</button>
                 </div>
             </div>
+
 {/*=======
+=======
+=======
+>>>>>>> 17a29b5cc3991647f9252d26ebc2e48a0bd51ee1
   const register = async (e) => {
     e.preventDefault();
     if (password != cpass) {
@@ -139,7 +151,9 @@ const Signup = () => {
           >
             Sign Up
           </button>
+<<<<<<< HEAD
 >>>>>>> c0f8380e2d80d69968373a6fe1f88bd2623fa3b3*/}
+
         </div>
       //</div>
     //</div>

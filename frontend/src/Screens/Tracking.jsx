@@ -75,14 +75,7 @@ const Tracking = () => {
                         orders.map((order, index) =>
                             <div className='grid grid-cols-2 sm:grid-cols-1 m-10'>
                                 <div className='flex object-cover items-center'>
-                                    <SimpleImageSlider
-                                        width={896}
-                                        height={504}
-                                        images={productImage[index]}
-                                        showBullets={true}
-                                        showNavs={true}
-                                    />
-                                    {console.log(productImage[index])}
+                                    
                                 </div>
 
 

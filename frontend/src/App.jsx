@@ -1,4 +1,8 @@
+
 //<<<<<<< HEAD
+
+
+
 import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -18,6 +22,7 @@ import Dash from './Admin/Dash';
 import UpdateProduct from './Admin/UpdateProduct';
 import PopupExample from './Admin/PopupExample';
 import Tracking from './Screens/Tracking';
+
 /*
 =======
 import { useEffect, useState } from "react";
@@ -40,6 +45,7 @@ import UpdateProduct from "./Admin/UpdateProduct";
 import PopupExample from "./Admin/PopupExample";
 >>>>>>> c0f8380e2d80d69968373a6fe1f88bd2623fa3b3
 */
+
 function App() {
   const [count, setCount] = useState(0);
 
@@ -49,7 +55,9 @@ function App() {
         <Navbar />
 
         <Routes>
+
 {/*<<<<<<< HEAD*/}
+
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
@@ -61,6 +69,7 @@ function App() {
           <Route path='/update/:id' element={<UpdateProduct/>}/>
           <Route path='/popup/:id' element={<PopupExample/>}/>
           <Route path='/track' element={<Tracking/>}/>
+
           {/*
 =======
           <Route path="/" element={<Home />} />
@@ -75,6 +84,7 @@ function App() {
           <Route path="/popup/:id" element={<PopupExample />} />
 >>>>>>> c0f8380e2d80d69968373a6fe1f88bd2623fa3b3
 */}
+
         </Routes>
       </BrowserRouter>
       <Footer />

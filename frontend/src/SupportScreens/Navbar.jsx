@@ -45,7 +45,7 @@ const Navbar = () => {
     }, 150);
   };
 
-  const searchItem = (e) => {
+ /* const searchItem = (e) => {
     //e.preventDefault();
     console.log("clicked");
 
@@ -196,7 +196,8 @@ const Navbar = () => {
   );
 };
 
-/*<<<<<<< HEAD
+*/
+
     const searchItem = (e) => {
         //e.preventDefault();
         console.log("clicked");
@@ -277,9 +278,6 @@ const Navbar = () => {
             </nav>
 
     );
-}
 
+  }
 export default Navbar;
-=======*/
-export default Navbar;
-//>>>>>>> c0f8380e2d80d69968373a6fe1f88bd2623fa3b3
