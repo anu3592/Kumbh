@@ -371,7 +371,8 @@ app.get('/getTrackImages/:key', verifyToken, async (req, resp)=>{
         let arr = result.img.data;
         let bufferData = Buffer.from(arr);
         let base64String = bufferData.toString('base64');
-        resp.send({base64String});
+        let url = `data:image/jpg;base64,${base64String}`;
+        resp.send({url});
     }
     else{
         resp.send({error: "no result found"});

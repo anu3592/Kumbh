@@ -1,5 +1,6 @@
 import { StepBack } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import SimpleImageSlider from "react-simple-image-slider";
 
 const Tracking = () => {
     const status = ['Ordered', 'Shipped', 'Delivered'];
@@ -57,7 +58,8 @@ const Tracking = () => {
             })
             setProductImage(productImage.push(emptyArr));
         })
-        console.log(productImage);
+        //console.log(productImage);
+
 
     }
 
@@ -73,23 +75,16 @@ const Tracking = () => {
                         orders.map((order, index) =>
                             <div className='grid grid-cols-2 sm:grid-cols-1 m-10'>
                                 <div className='flex object-cover items-center'>
-                                    {productImage.map((images,i)=>
-                                    <div className="w-72">
-                                        {images.length === 1 ? (
-                                            <img src={`data:image/jpg;base64,${images.base64String}`} alt="Product" className="rounded-lg shadow-md" />
-                                        ) : (
-                                            <Swiper spaceBetween={10} slidesPerView={1} loop={true}>
-                                                {images.map((img, idx) => (
-                                                    <SwiperSlide key={idx}>
-                                                        <img src={`data:image/jpg;base64,${img.base64String}`} alt={`Product ${idx}`} className="rounded-lg shadow-md" />
-                                                    </SwiperSlide>
-                                                ))}
-                                            </Swiper>
-                                        )}
-                                    </div>
-                                    )}
+                                    <SimpleImageSlider
+                                        width={896}
+                                        height={504}
+                                        images={productImage[index]}
+                                        showBullets={true}
+                                        showNavs={true}
+                                    />
+                                    {console.log(productImage[index])}
                                 </div>
-                                    
+
 
                                 <div className='flex flex-col items-center justify-center'>
                                     <h2 className='text-3xl font-bold mb-4'>Order Tracking</h2>
