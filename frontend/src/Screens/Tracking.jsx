@@ -118,6 +118,7 @@ useEffect(() => {
             //console.log(productImage); // Array of image arrays per order
             getLiveStatus();
             setLoading(false);
+            
 
         } catch (err) {
             console.error("Error fetching data:", err);
@@ -187,7 +188,8 @@ useEffect(() => {
                 </div>
                 :
         <>
-            {orders ?
+            
+            {orders && orders.length>0 ?
                 <>
                     {
                         orders.map((order, index) =>
@@ -245,7 +247,7 @@ useEffect(() => {
                             </div>
                         )}
                 </> :
-                <div className='flex flex-row h-full w-full'>
+                <div className='flex flex-row h-full w-full items-center justify-center'>
                     <div className='flex flex-col w-[400px] h-[200px] rounded-xl bg-purple-400 items-center justify-center m-10 boxshadow'>
                         <h2 className='text-2xl font-bold'>No Order yet</h2>
                         <p className='text-lg'>Please make an order to view the track status...</p>
