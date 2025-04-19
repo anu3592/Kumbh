@@ -34,6 +34,7 @@ exports.createOrder = async (req, res) => {
         amount: price * 100,
         currency: "INR",
         receipt: `receipt_order_1`,
+        
     };
 
     try {
@@ -76,5 +77,55 @@ exports.verifyPayment = async (req, res) => {
             success: false,
             message: "Payment not verified",
         });
+    }
+};
+
+exports.createPaymentLink = async (req, res) => {
+    const { courseId, amount, email } = req.body;
+
+    let result = await Cart.find({
+        "$or": [
+            { email: { $regex: email } }
+        ]
+    });
+
+    let price = 0;
+
+    for(let i=0; i<result.length; i++)
+    {
+        price = price + (result[i].price* result[i].quantity);
+    }
+
+    if (!courseId || !amount) {
+        return res.status(400).json({
+            success: false,
+            message: "Course id and amount is required",
+        });
+    }
+
+
+    const options = {
+        amount: price * 100,
+        currency: "INR",
+        accept_partial: false,
+        description: "Kumbh Order Payment",
+        customer: {
+            email,
+        },
+        notify: {
+            sms: true,
+            email: true,
+        },
+        reminder_enable: true,
+        callback_url: "http://localhost:3000/payment-success",
+        callback_method: "get",
+    };
+
+    try {
+        const response = await razorpayInstance.paymentLink.create(options);
+        res.status(200).json({ success: true, paymentLink: response.short_url });
+    } catch (error) {
+        console.error("Payment Link error:", error);
+        res.status(500).json({ success: false, error });
     }
 };

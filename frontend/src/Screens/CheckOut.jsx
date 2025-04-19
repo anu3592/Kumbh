@@ -115,11 +115,10 @@ const CheckOut = () => {
                 },
 
                 method: {
+                    upi: true,
                     netbanking: true,
                     card: true,
-                    wallet: true,
-                    upi: true,
-                    // disable pay later
+                    wallet: true, 
                     paylater: false,
                 }
 

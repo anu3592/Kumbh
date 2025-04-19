@@ -87,7 +87,14 @@ useEffect(() => {
             });
 
             const orderData = await response.json();
-            setOrders(orderData);
+            if(orderData.result)
+            {
+                setOrders(null);
+                setLoading(false);
+            }
+            else{
+                setOrders(orderData);
+            }
 
             const allImagesPerOrder = await Promise.all(orderData.map(async (order) => {
                 const imageArray = await Promise.all(order.products.map(async (productId) => {
@@ -113,11 +120,15 @@ useEffect(() => {
                 // Flatten all images of products into one array for the order
                 return imageArray.flat();
             }));
-
+            if(allImagesPerOrder.length>0){
             setProductImage(allImagesPerOrder);
             //console.log(productImage); // Array of image arrays per order
             getLiveStatus();
             setLoading(false);
+            }
+            else{
+                setLoading(false);
+            }
             
 
         } catch (err) {

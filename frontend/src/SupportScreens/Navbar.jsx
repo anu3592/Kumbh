@@ -17,6 +17,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
   //const [loading, setLoading] = useState(true);
+  const [tmp, setTmp] = useState(true);
   let isLoggedIn = localStorage.getItem("user");
 
   useEffect(() => {
@@ -199,7 +200,7 @@ const Navbar = () => {
 */
 
     const searchItem = (e) => {
-        //e.preventDefault();
+        e.preventDefault();
         console.log("clicked");
 
         if (search.length != 0) {
@@ -207,6 +208,7 @@ const Navbar = () => {
             navigate("/search");
         }
 
+        
     }
 
     const cartFunctioning = async () => {
@@ -237,9 +239,9 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex flex-row mr-10">
-                    <form className="flex flex-row items-center">
+                    <form className="flex flex-row items-center" onSubmit={searchItem}>
                         <input type="text" className="bg-white mt-2 ml-2 mb-2  p-2 lg:h-[40px] h-[30px] rounded-lg" placeholder="search..." onChange={(e) => setSearch(e.target.value)} />
-                        <button type="submit" id="searchBtn" className="text-white m-1 " style={{ backgroundColor: "lightgreen" }} onClick={(e) => searchItem(e)}>Search</button>
+                        <button type="submit" id="searchBtn" className="text-white m-1 " style={{ backgroundColor: "lightgreen" }} >Search</button>
                     </form>
                 </div>
                 <div className="flex flex-row">
