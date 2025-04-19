@@ -269,10 +269,18 @@ app.get("/searchDashUser/:key", verifyToken, async (req, resp) => {
 })
 
 app.get("/searchDashOrder/:key", verifyToken, async (req, resp) => {
-    let result = await Order.findOne({ name: req.params.key });
+    let result = await Order.find({
+        "$or": [
+        {name: {$regex: req.params.key }},
+        {ownerEmail: {$regex: req.params.key}},
+        ]
+    }
+    );
     let ans = [];
     if (result) {
-        ans.push({ id: result._id, name: result.name, contact: result.contact, zip: result.zip, address: result.address, products: result.products, quantity: result.quantity, isPaid: result.isPaid });
+        for(let i=0; i<result.length; i++){
+        ans.push({ id: result[i]._id, orderId: result[i].orderId, name: result[i].name, contact: result[i].contact, zip: result[i].zip, address: result[i].address, products: result[i].products, quantity: result[i].quantity, isPaid: result[i].isPaid, status: result[i].status});
+        }
     }
     resp.send(ans);
 })
@@ -378,6 +386,27 @@ app.get('/getTrackImages/:key', verifyToken, async (req, resp)=>{
         resp.send({error: "no result found"});
     }
 
+})
+
+app.put("/changeDeliveryStatus/:key", async (req, resp)=>{
+    let result = await Order.updateOne(
+        {_id: req.params.key},
+        {$set: {
+            status: req.body.value
+        }}
+    )
+    resp.send(result);
+})
+
+app.post("/getLiveTrack", async (req, resp)=>{
+    let result = await Order.find({
+        "$and": [
+            {ownerEmail: req.body.email},
+            {isPaid: "paid"}
+        ]
+    });
+
+    resp.send(result);
 })
 
 function verifyToken(req, resp, next) {

@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { passPopup, passPopupOrderId, showPopup } from "../actions";
+import { passPopup, passPopupAddress, passPopupOrderId, showPopup, showPopup2 } from "../actions";
 
 const OrderList = () => {
     const [orders, setOrders] = useState(null);
     const [searchOrder, setSearchOrder] = useState("");
+    const [selectedStatuses, setSelectedStatuses] = useState({});
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -59,6 +60,7 @@ const OrderList = () => {
         if(result)
         {
             setOrders(result);
+            console.log(result);
         }
     }
 
@@ -70,8 +72,46 @@ const OrderList = () => {
         dispatch(passPopupOrderId(item.orderId));
     }
 
+    const addressLinkClicked = (address)=>{
+        dispatch(showPopup2());
+        dispatch(passPopupAddress(address));
+    }
+
+    const updateStatus = async (item)=>{
+
+        // let e = document.getElementById("status");
+        // let value = e.value;
+
+        // console.log(e.value);
+        //console.log(item.id);
+
+        const value = selectedStatuses[item.id];
+        if (!value || value === "change status") {
+            alert("Please select a valid status");
+            return;
+        }
+
+        let result = await fetch(`http://localhost:5000/changeDeliveryStatus/${item.id}`,{
+            method: "PUT",
+            body: JSON.stringify({value}),
+            headers: {
+                'Content-Type':'application/json'
+            }
+        })
+        result = await result.json();
+        console.log(result);
+    }
+
+    const handleStatusChange = (e, id)=>{
+        const value = e.target.value;
+    setSelectedStatuses(prev => ({
+        ...prev,
+        [id]: value
+    }));
+    }
+
     return (
-        <div className="flex flex-col m-3">
+        <div className="flex flex-col m-3 pl-20">
             <h2 className="headStyle text-4xl">Orders</h2>
             <div className="flex flex-row m-2">
             <FaSearch size={25} className="m-2 text-white h-[50px] w-[50px] p-2 mr-[-2px] mt-[-0.25px] rounded-l-md cursor-pointer" onClick={()=>searchItem()}/>
@@ -86,10 +126,20 @@ const OrderList = () => {
                                 <td>{item.name}</td>
                                 <td>{item.contact}</td>
                                 <td>{item.zip}</td>
-                                <td>{item.address}</td>
+                                {/*<td>{item.address}</td>*/}
+                                <td><Link to={'/popupAddress'} onClick={()=>addressLinkClicked(item.address)}>address</Link></td>
                                 <td><Link to={'/popup/'+item.id} onClick={()=>itemsLinkClicked(item)}>items</Link></td>
                                 <td>{item.isPaid}</td>
                                 <td>{item.status}</td>
+                                <td><select 
+                                    value={selectedStatuses[item.id] || "change status"}
+                                    onChange={(e)=>handleStatusChange(e, item.id)}
+                                >
+                                    <option disabled>change status</option>
+                                    <option value="Shipped">Shipped</option>
+                                    <option value="Delivered">Delivered</option>
+                                    </select></td>
+                                <td onClick={()=>updateStatus(item)} className="cursor-pointer text-orange-700">Update</td>
                                 <td><FaTrash size={20} className="cursor-pointer" onClick={() => deleteTheOrder(item.id)} /></td>
                             </tr>)
                         )}

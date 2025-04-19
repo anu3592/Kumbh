@@ -90,7 +90,7 @@ const CheckOut = () => {
                             
                                 let changePaidStatus = await fetch(`http://localhost:5000/paid/${getOrderForPaid._id}`, {
                                     method: "PUT",
-                                    body: JSON.stringify({ isPaid: "paid", status: "ordered"}),
+                                    body: JSON.stringify({ isPaid: "paid", status: "Ordered"}),
                                     headers: {
                                         authorization: JSON.parse(localStorage.getItem("token")),
                                         'Content-Type': 'application/json'

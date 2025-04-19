@@ -31,6 +31,12 @@ export const showPopup = ()=>{
     }
 }
 
+export const showPopup2 = ()=>{
+    return {
+        type: 'POPUP2'    
+    }
+}
+
 export const passPopup = (item)=>{
     return{
         type: 'PASSPOPUP',
@@ -42,5 +48,12 @@ export const passPopupOrderId = (id)=>{
     return{
         type: 'ORDERID',
         payload: id
+    }
+}
+
+export const passPopupAddress = (address)=>{
+    return{
+        type: 'ADDRESS',
+        payload: address
     }
 }

@@ -7,6 +7,8 @@ import passOrderItem from "./passOrderItem";
 import showItemPopup from "./showItemPopup";
 import passPopupItem from "./passPopupItem";
 import passPopupOrderId from "./passPopupOrderId";
+import passPopupAddressData from "./passPopupAddressData";
+import showAddressPopup from "./showAddressPopup";
 
 const rootReducer = combineReducers({
     changeStatus,
@@ -15,7 +17,9 @@ const rootReducer = combineReducers({
     passOrderItem,
     showItemPopup,
     passPopupItem,
-    passPopupOrderId
+    passPopupOrderId,
+    passPopupAddressData,
+    showAddressPopup
 })
 
 export default rootReducer;

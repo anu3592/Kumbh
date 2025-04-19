@@ -22,6 +22,7 @@ import Dash from './Admin/Dash';
 import UpdateProduct from './Admin/UpdateProduct';
 import PopupExample from './Admin/PopupExample';
 import Tracking from './Screens/Tracking';
+import PopupAddress from './Admin/PopupAddress';
 
 /*
 =======
@@ -68,6 +69,7 @@ function App() {
           <Route path='/dash' element={<Dash/>}/>
           <Route path='/update/:id' element={<UpdateProduct/>}/>
           <Route path='/popup/:id' element={<PopupExample/>}/>
+          <Route path='/popupAddress' element={<PopupAddress/>}/>
           <Route path='/track' element={<Tracking/>}/>
 
           {/*
