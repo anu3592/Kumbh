@@ -228,7 +228,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="absolute top-0 left-0 w-full flex justify-between items-center  py-8 bg-[#CD853F]  shadow-lg lg:h-[12%] md:h-[8%] sm:h-[8%] overflow-hidden">
+    <nav className="absolute top-0 left-0 w-screen flex justify-between items-center  py-8 bg-[#CD853F]  shadow-lg lg:h-[12%] md:h-[8%] sm:h-[8%] overflow-hidden">
       <div className="flex items-center gap-3 cursor-pointer">
         <img
           src={kumbhLogo}
