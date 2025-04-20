@@ -16,6 +16,27 @@ const Home = () => {
     setProducts(data);
   };
 
+  const addInCart = async (item)=>{
+    let formData = new FormData();
+        formData.append("title", item.title);
+        formData.append("price", item.cost);
+        formData.append("email", JSON.parse(localStorage.getItem("user")).email);
+        formData.append("quantity", 1);
+        formData.append("img", item.img);
+
+        let result = await fetch("http://localhost:5000/addCart", {
+            method: "POST",
+            body: formData,
+            headers: {
+                authorization: JSON.parse(localStorage.getItem("token")),
+            },
+        });
+
+        result = await result.json();
+        console.log(result);
+        alert("Product added successfully!");
+  }
+
   return (
     <div className="flex h-[90%] max-sm:m-7 sm:mt-17">
       <div className="flex flex-col w-full h-full z-10 mt-9 justify-center">
@@ -92,6 +113,7 @@ const Home = () => {
                   type="button"
                   className="rounded-2xl text-white shadow-md"
                   style={{ backgroundColor: "orange" }}
+                  onClick={()=>addInCart(item)}
                 >
                   Add to cart
                 </button>

@@ -95,7 +95,7 @@ app.post("/addProduct", upload, async (req, resp) => {
     console.log(item);
 })
 
-app.get("/search/:key", verifyToken, async (req, resp) => {
+app.get("/search/:key", async (req, resp) => {
     console.log(req.params.key);
     let result = await Product.find({
         "$or": [

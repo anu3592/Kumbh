@@ -166,8 +166,10 @@ const Cart = () => {
                         <div key={index} className="flex items-center p-2 border-b border-gray-300">
                             {/* Image on the left */}
                             <div className="w-1/3 p-2">
+                            
                                 <img src={`data:image/jpg;base64,${item.img}`} alt={item.title} className="w-full h-auto rounded-lg object-cover" />
-                            </div>
+                            
+                                </div>
                             {/* Details on the right */}
                             <div className="w-2/3 flex flex-col justify-between">
                                 <h3 className="text-lg font-semibold">{item.title}</h3>

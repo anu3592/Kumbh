@@ -199,9 +199,9 @@ const Navbar = () => {
 
 */
 
-  const searchItem = (e) => {
-    e.preventDefault();
-    console.log("clicked");
+    const searchItem = (e) => {
+        //e.preventDefault();
+        console.log("clicked");
 
     if (search.length != 0) {
       localStorage.setItem("search", search);

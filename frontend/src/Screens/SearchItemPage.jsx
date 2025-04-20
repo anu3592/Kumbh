@@ -108,7 +108,7 @@ const SearchItemPage = () => {
                 :
                 <div className="flex flex-col w-screen items-center mt-9 p-4">
                     {/* Filter Buttons */}
-                    {products.length > 0 && (
+                    {(products && products.length > 0) && (
                         <div className="flex flex-wrap justify-center gap-4 mb-6">
                             <h2 className="text-[2.5vw] font-bold">Filters:</h2>
 
