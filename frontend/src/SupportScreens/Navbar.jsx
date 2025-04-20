@@ -245,7 +245,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex flex-row mr-10 ml-20">
-        <form className="flex items-center gap-2">
+        <form className="flex items-center gap-2" onSubmit={searchItem}>
           <input
             type="text"
             className="bg-white p-2 h-[40px] w-[350px] rounded-lg text-sm text-[black]"
@@ -255,9 +255,7 @@ const Navbar = () => {
           <button
             type="submit"
             id="searchBtn"
-            className="text-[#CD853F] m-1 px-4 py-1 rounded-md bg-white hover:bg-gray-900 hover:text-black transition duration-200"
-            style={{ backgroundColor: "white" }}
-            onClick={(e) => searchItem(e)}
+            className="text-[#fff] m-1 px-4 py-1 rounded-md bg-white hover:text-[#CD853F] transition duration-200"
           >
             Search
           </button>
@@ -318,6 +316,15 @@ const Navbar = () => {
                 >
                   Logout
                 </li>
+                {!isAdmin && (
+                  <li
+                    id="orders"
+                    className="font-bold m-3 p-2 text-amber-700 cursor-pointer font-sans rounded-lg headStyle"
+                    onClick={() => navigate("/track")}
+                  >
+                    My Orders
+                  </li>
+                )}
               </>
             ) : (
               <>
