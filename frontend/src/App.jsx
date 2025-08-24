@@ -10,7 +10,7 @@ import './App.css'
 import Navbar from './SupportScreens/Navbar';
 import Home from './Screens/Home';
 import Footer from './SupportScreens/Footer';
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router';
 import Login from './Screens/Login';
 import Signup from './Screens/Signup';
 import SearchItemPage from './Screens/SearchItemPage';
@@ -50,10 +50,18 @@ import PopupExample from "./Admin/PopupExample";
 function App() {
   const [count, setCount] = useState(0);
 
+  const location = useLocation();
+
+
+  const hideNavbar = location.pathname === '/login' || location.pathname === '/signup';
+
+
   return (
     <div className="App">
-      <BrowserRouter>
-        <Navbar />
+
+      {!hideNavbar && <Navbar />}
+      
+        
 
         <Routes>
 
@@ -88,8 +96,8 @@ function App() {
 */}
 
         </Routes>
-      </BrowserRouter>
-      <Footer />
+        
+      {!hideNavbar && <Footer />}
     </div>
   );
 }

@@ -185,7 +185,8 @@ const CheckOut = () => {
     }, [])
 
     return (
-        <div className="flex flex-col h-full w-screen justify-center items-center mt-10 ml-2 mb-2 mr-2 rounded-2xl">
+        <div className="flex flex-col h-full w-full justify-center items-center mt-25 ml-2 mb-2 mr-2 rounded-2xl">
+        
             <h2 className="headStyle text-3xl font-bold">Enter Your Details</h2>
             <div className="flex flex-col">
                 <input type="text" className="border-2 border-black rounded-lg p-5 m-4 w-[300px] h-5 bg-white" placeholder="Enter your name..." onChange={(e) => setName(e.target.value)} />

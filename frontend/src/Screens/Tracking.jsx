@@ -258,7 +258,7 @@ useEffect(() => {
                             </div>
                         )}
                 </> :
-                <div className='flex flex-row h-full w-full items-center justify-center'>
+                <div className='flex flex-row h-full w-full items-center justify-center mt-20'>
                     <div className='flex flex-col w-[400px] h-[200px] rounded-xl bg-purple-400 items-center justify-center m-10 boxshadow'>
                         <h2 className='text-2xl font-bold'>No Order yet</h2>
                         <p className='text-lg'>Please make an order to view the track status...</p>

@@ -29,7 +29,7 @@ function Footer() {
   };
 
   return (
-    <footer className="relative  w-screen mx-auto px-4 py-12 bg-[#1e1f23] text-gray-300">
+    <footer className="w-full px-4 py-12 bg-[#1e1f23] text-gray-300">
       {/* Scroll-to-top button */}
       {showScroll && (
         <button

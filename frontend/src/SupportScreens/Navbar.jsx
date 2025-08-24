@@ -228,34 +228,34 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="absolute top-0 left-0 w-screen flex justify-between items-center  py-8 bg-[#CD853F]  shadow-lg lg:h-[12%] md:h-[8%] sm:h-[8%] overflow-hidden">
-      <div className="flex items-center gap-3 cursor-pointer">
+    <nav className="top-0 left-0 w-full flex justify-between items-center px-4 py-4 bg-[#CD853F] shadow-lg z-50">
+      <div className="flex items-center gap-0 cursor-pointer">
         <img
           src={kumbhLogo}
           alt="Kumbh Logo"
-          className="websitLogo rounded-lg lg:w-12 lg:h-12 md:w-10 md:h-10 w-8 h-8"
+          className="websitLogo rounded-lg lg:w-12 lg:h-12 md:w-10 md:h-10 w-8 h-8 mr-2"
         />
         <h2
           id="siteName"
-          className="text-white text-xl font-semibold text-[#FFF] cursor-pointer"
+          className="text-white text-xl font-semibold text-[#FFF] cursor-pointer mr-6"
           onClick={() => navigate("/")}
         >
           Kumbh
         </h2>
       </div>
 
-      <div className="flex flex-row mr-10 ml-20">
+      <div className="flex flex-row sm:ml-20 sm:mr-10 ml-3 mr-1">
         <form className="flex items-center gap-2" onSubmit={searchItem}>
           <input
             type="text"
-            className="bg-white p-2 h-[40px] w-[350px] rounded-lg text-sm text-[black]"
+            className="bg-white p-2 h-[40px] w-full sm:w-[350px] rounded-lg text-sm text-black"
             placeholder="search..."
             onChange={(e) => setSearch(e.target.value)}
           />
           <button
             type="submit"
             id="searchBtn"
-            className="text-[#fff] m-1 px-4 py-1 rounded-md bg-white hover:text-[#CD853F] transition duration-200"
+            className="text-[#CD853F] m-1 p-2 rounded-md bg-white hover:text-[#fff] transition duration-200"
           >
             Search
           </button>

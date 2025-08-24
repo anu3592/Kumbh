@@ -68,8 +68,8 @@ const Signup = () => {
 
     return (
       <div>
-        <div className="flex w-full justify-center items-center mt-[150px]">
-          <div className="flex flex-col w-[500px] justify-center items-center border-1 rounded-3xl shadow-2xl mt-10 mb-5 p-5">
+        <div className="flex items-center justify-center w-screen">
+          <div className="flex flex-col justify-center items-center w-full max-w-md rounded-3xl shadow-2xl p-5 bg-white">
             <h1 className="text-4xl text-orange-500 font-bold p-4 m-4">
               Sign Up
             </h1>

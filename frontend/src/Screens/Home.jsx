@@ -38,7 +38,7 @@ const Home = () => {
   }
 
   return (
-    <div className="flex h-[90%] max-sm:m-7 sm:mt-17">
+    <div className="flex h-[90%] max-sm:m-7 sm:mt-17 min-w-screen">
       <div className="flex flex-col w-full h-full z-10 mt-9 justify-center">
         <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-6 py-4 w-full m-3">
           <div className="flex flex-col items-center m-2">
