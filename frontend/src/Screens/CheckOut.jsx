@@ -16,6 +16,8 @@ const CheckOut = () => {
     const [ordersRecieved, setOrdersRecieved] = useState(null);
     const navigate = useNavigate();
     let orderId = Math.floor(1000000000 + Math.random() * 9000000000);
+    const regex = /^\d{10}$/;
+    const regex2 = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const loadScript = (src) => {
         return new Promise((resolve) => {
@@ -85,22 +87,22 @@ const CheckOut = () => {
                                 }
                             });
                             getOrderForPaid = await getOrderForPaid.json();
-                            console.log("data",getOrderForPaid);
-                            
-                            
-                                let changePaidStatus = await fetch(`http://localhost:5000/paid/${getOrderForPaid._id}`, {
-                                    method: "PUT",
-                                    body: JSON.stringify({ isPaid: "paid", status: "Ordered"}),
-                                    headers: {
-                                        authorization: JSON.parse(localStorage.getItem("token")),
-                                        'Content-Type': 'application/json'
-                                    }
-                                });
-                                changePaidStatus = await changePaidStatus.json();
-                                console.log(changePaidStatus);
+                            console.log("data", getOrderForPaid);
 
-                                alert("Payment Successful");
-                                navigate('/');
+
+                            let changePaidStatus = await fetch(`http://localhost:5000/paid/${getOrderForPaid._id}`, {
+                                method: "PUT",
+                                body: JSON.stringify({ isPaid: "paid", status: "Ordered" }),
+                                headers: {
+                                    authorization: JSON.parse(localStorage.getItem("token")),
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                            changePaidStatus = await changePaidStatus.json();
+                            console.log(changePaidStatus);
+
+                            alert("Payment Successful");
+                            navigate('/');
                         }
                         else {
                             alert("Payemnt Failed");
@@ -118,7 +120,7 @@ const CheckOut = () => {
                     upi: true,
                     netbanking: true,
                     card: true,
-                    wallet: true, 
+                    wallet: true,
                     paylater: false,
                 }
 
@@ -132,38 +134,54 @@ const CheckOut = () => {
 
     const submit = async (e) => {
         e.preventDefault();
-        if(orderedItems[0])
-        {
-        let products = [];
-        let quantity = [];
-        for (let key in orderedItems[0]) {
-            products.push(`${key}`);
-
-            quantity.push(orderedItems[0][`${key}`]);
+        if (name == "" || !contact || !zip || email == "" || address == "") {
+            alert("Please enter all Credentials");
         }
-        console.log(orderedItems);
-        let ownerEmail = JSON.parse(localStorage.getItem("user")).email;
-        //console.log(products);
-        console.log("OrderId", orderId);
-        let result = await fetch("http://localhost:5000/checkout", {
-            method: "POST",
-            body: JSON.stringify({ name, contact, email, zip, address, products, quantity, orderId, ownerEmail}),
-            headers: {
-                authorization: JSON.parse(localStorage.getItem("token")),
-                'content-type': 'application/json'
+        else {
+
+            if (regex.test(contact)) {
+
+                if(regex2.test(email))
+                {
+                if (orderedItems[0]) {
+                    let products = [];
+                    let quantity = [];
+                    for (let key in orderedItems[0]) {
+                        products.push(`${key}`);
+
+                        quantity.push(orderedItems[0][`${key}`]);
+                    }
+                    console.log(orderedItems);
+                    let ownerEmail = JSON.parse(localStorage.getItem("user")).email;
+                    //console.log(products);
+                    console.log("OrderId", orderId);
+                    let result = await fetch("http://localhost:5000/checkout", {
+                        method: "POST",
+                        body: JSON.stringify({ name, contact, email, zip, address, products, quantity, orderId, ownerEmail }),
+                        headers: {
+                            authorization: JSON.parse(localStorage.getItem("token")),
+                            'content-type': 'application/json'
+                        }
+                    })
+
+                    result = await result.json();
+                    console.log(result);
+
+                    onPayment(100, "dummy");
+                }
+                else {
+                    alert("Please Don't refresh the checkout page while moved from cart page your data is lost... Try Again!!!");
+                    navigate('/');
+                }
             }
-        })
-
-        result = await result.json();
-        console.log(result);
-
-        onPayment(100, "dummy");
-    }
-    else{
-        alert("Please Don't refresh the checkout page while moved from cart page your data is lost... Try Again!!!");
-        navigate('/');
-    }
-
+            else{
+                alert("Please enter valid email address");
+            }
+            }
+            else {
+                alert("Please enter valid mobile number");
+            }
+        }
     }
 
     useEffect(() => {
@@ -186,7 +204,7 @@ const CheckOut = () => {
 
     return (
         <div className="flex flex-col h-full w-full justify-center items-center mt-25 ml-2 mb-2 mr-2 rounded-2xl">
-        
+
             <h2 className="headStyle text-3xl font-bold">Enter Your Details</h2>
             <div className="flex flex-col">
                 <input type="text" className="border-2 border-black rounded-lg p-5 m-4 w-[300px] h-5 bg-white" placeholder="Enter your name..." onChange={(e) => setName(e.target.value)} />

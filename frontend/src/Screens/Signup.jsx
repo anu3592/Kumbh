@@ -11,6 +11,8 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [cpass, setCpass] = useState("");
   const navigate = useNavigate();
+  const regex = /^\d{10}$/;
+  const regex2 = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   useEffect(() => {
     const auth = localStorage.getItem("user");
@@ -24,19 +26,37 @@ const Signup = () => {
     if (password != cpass) {
       alert("Password does not match");
     } else {
-      let signupResponse = await fetch("http://localhost:5000/register", {
-        method: "POST",
-        body: JSON.stringify({ name, email, contact, address, password }),
-        headers: {
-          "content-type": "application/json",
-        },
-      });
-      signupResponse = await signupResponse.json();
-      if (signupResponse) {
-        console.log(signupResponse);
-        localStorage.setItem("user", JSON.stringify(signupResponse.result));
-        localStorage.setItem("token", JSON.stringify(signupResponse.auth));
-        navigate("/");
+
+      if (name == "" || email == "" || !contact || address == "" || password == "") {
+        alert("Please Enter all Credentials");
+      }
+      else {
+
+        if (regex.test(contact)) {
+          if (regex2.test(email)) {
+            let signupResponse = await fetch("http://localhost:5000/register", {
+              method: "POST",
+              body: JSON.stringify({ name, email, contact, address, password }),
+              headers: {
+                "content-type": "application/json",
+              },
+            });
+            signupResponse = await signupResponse.json();
+            if (signupResponse) {
+              console.log(signupResponse);
+              localStorage.setItem("user", JSON.stringify(signupResponse.result));
+              localStorage.setItem("token", JSON.stringify(signupResponse.auth));
+              navigate("/");
+            }
+          }
+          else {
+            alert("Please enter valid email");
+          }
+        }
+
+        else {
+          alert("Please enter valid 10-digit mobile number");
+        }
       }
     }
   };

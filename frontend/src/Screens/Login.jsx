@@ -4,9 +4,11 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
   useEffect(() => {
     const auth = localStorage.getItem("user");
+    
     if (auth) {
       navigate("/");
     }
@@ -36,42 +38,53 @@ const Login = () => {
     //     window.location.reload();
     // }
 
-    fetch("http://localhost:5000/login", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((loginResponse) => loginResponse.json())
-      .then((loginResponse) => {
-        if (loginResponse.auth) {
-          console.log(loginResponse);
-          localStorage.setItem("user", JSON.stringify(loginResponse.user));
-          localStorage.setItem("token", JSON.stringify(loginResponse.auth));
-          // console.log("1 wala", loginResponse.user.email);
-          // console.log("2 wala", loginResponse.email);
+    if (email != "" && password != "") {
 
-          if (loginResponse.user.email === "govind@gmail.com") {
-            localStorage.setItem("admin", loginResponse.user.name);
-            console.log("admin added");
-          } else {
-            localStorage.removeItem("admin");
-          }
+      if (regex.test(email)) {
+        fetch("http://localhost:5000/login", {
+          method: "POST",
+          body: JSON.stringify({ email, password }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((loginResponse) => loginResponse.json())
+          .then((loginResponse) => {
+            if (loginResponse.auth) {
+              console.log(loginResponse);
+              localStorage.setItem("user", JSON.stringify(loginResponse.user));
+              localStorage.setItem("token", JSON.stringify(loginResponse.auth));
+              // console.log("1 wala", loginResponse.user.email);
+              // console.log("2 wala", loginResponse.email);
 
-          // setTimeout(() => {
-          //     navigate('/');
-          //     //window.location.reload();
-          // }, 150);
-          console.log("logged in");
-          navigate("/");
-          //  window.location.reload();
-          setTimeout(() => {
-            window.location.reload();
-          }, 100);
-        }
-      })
-      .catch((error) => console.error("Error in login", error));
+              if (loginResponse.user.email === "govind@gmail.com") {
+                localStorage.setItem("admin", loginResponse.user.name);
+                console.log("admin added");
+              } else {
+                localStorage.removeItem("admin");
+              }
+
+              // setTimeout(() => {
+              //     navigate('/');
+              //     //window.location.reload();
+              // }, 150);
+              console.log("logged in");
+              navigate("/");
+              //  window.location.reload();
+              setTimeout(() => {
+                window.location.reload();
+              }, 100);
+            }
+          })
+          .catch((error) => console.error("Error in login", error));
+      }
+      else {
+        alert("Please Enter Valid Email");
+      }
+    }
+    else {
+      alert("Please enter your credentials");
+    }
   };
 
   return (
